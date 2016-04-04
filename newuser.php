@@ -30,7 +30,7 @@ a profile requesting specific information. Orginally created by Trenton, if you 
 
 <!-- PAGE HEADER -->
 	<div class="col-xs-12">
-		<h1><center><font color="white"><strong> New User </strong></font><br></center></h1>
+		<h1><center><font color="white"><strong> New User </strong></font><hr></center></h1>
 	</div>
 	
 <!--FORM INPUT FOR NEW USER -->
@@ -81,7 +81,7 @@ a profile requesting specific information. Orginally created by Trenton, if you 
 		<!--SUBMIT BUTTON -->
 		<center><button type="submit" class="btn btn-default btn-lg">Submit</button></center>
 		<br><br>
-
+	</form>
 </body>
 
 <footer>

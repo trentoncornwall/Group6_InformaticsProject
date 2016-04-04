@@ -1,7 +1,7 @@
 /* Add a dark background color with a little bit see-through */ 
 .navbar {
     margin-bottom: 0;
-    background-color: black;
+    background-color: #00b300;
     border: 0;
     font-size: 11px !important;
     letter-spacing: 4px;
@@ -32,7 +32,7 @@
 /* Dropdown */
 .open .dropdown-toggle {
     color: #fff ;
-    background-color: #555 !important;
+    background-color: black !important;
 }
 
 /* Dropdown links */
@@ -40,7 +40,4 @@
     color: #000 !important;
 }
 
-/* On hover, the dropdown links will turn red */
-.dropdown-menu li a:hover {
-    background-color: red !important;
 }

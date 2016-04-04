@@ -35,7 +35,7 @@ Orginally created by Trenton, if you have an questions ask.
 	
 <!-- PAGE HEADER -->
 	<div class="col-xs-12">
-		<h1><center><font color="White"><strong> Log In </strong></font><br><br></center></h1>
+		<h1><center><font color="White"><strong> Log In </strong></font><hr><br></center></h1>
 	</div>
 
 <!-- LOG IN FORMS -->

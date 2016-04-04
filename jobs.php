@@ -1,10 +1,10 @@
 <html>
 <!--
-This page is reached after user logs in. This is their home. Access to everything
+Reached by click JOBS on navbar. View and ADD jobs
 Orginally created by Trenton, if you have an questions ask.
 -->
 <header>
-<title> Home </title>
+<title> Jobs </title>
 
 <!-- BOOTSTRAP CODE -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -21,7 +21,7 @@ Orginally created by Trenton, if you have an questions ask.
 	padding: 60px 20px;
 }
 .container-2 {
-	padding: 60px 120px;	
+	padding: 20px 20px;	
 }
 </style>
 </header>
@@ -39,20 +39,37 @@ Orginally created by Trenton, if you have an questions ask.
 
 <!-- PAGE HEADER -->
 	<div class="col-xs-12">
-		<h1><center><font color="White"><strong> Welcome </strong></font></center><hr></h1>
+		<h1><center><font color="White"><strong> Jobs </strong></font></center><hr></h1>
 	</div>
 	
 
 
-<!--Messages for Users-->
+<!--List of Current Jobs-->
 <div class="container-2">
+	<h4><font color="white">Current Jobs</font></h4><br>
+	<!--TABLE THAT SHOWS JOBS OF USER-->
+	
+	
+	<!--ADD JOBS-->
+	<form class="form-horizontal">
+		<h4><font color="white">Add Job </font></h4>
+		
+		<!--Business Name id= Business_Name-->
+		<div class="form-group">
+			<div class="col-sm-12"> <input type="text" class="form-control" id="Buisness_Name" placeholder="Buisness Name"> </div>
+		</div>
+		
+		<!--Business Address id= Business_Address-->
+		<div class="form-group">
+			<div class="col-sm-12"> <input type="text" class="form-control" id="Buisness_Address" placeholder="Buisness Address"> </div>
+		</div>
+		
+		<!--BUTTON-->
+		<center><button type="submit" class="btn btn-default btn-lg">Submit</button></center>
 
-<center><font color="white">
-<h4> DATE was the last logged hours </h4>
-<br>
-<h4> START DATE - END DATE was the last pay stub submission</h4>
-</center></font>
 </div>
+
+
 </body>
 
 
