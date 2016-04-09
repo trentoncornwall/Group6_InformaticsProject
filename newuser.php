@@ -1,3 +1,10 @@
+<?php
+	include_once('config.php');
+	include_once('dbutils.php');
+	include_once('hashutil.php');	
+?>
+
+
 <html>
 <!--
 This page is reached after pressing new user button at login.php. It allows users to create
@@ -24,6 +31,70 @@ a profile requesting specific information. Orginally created by Trenton, if you 
 
 
 <body>
+<?php
+// PHP to add users to database.
+// POST if submit button is pressed
+if (isset($_POST['submit'])) {
+
+	// get data from the input fields
+	$username = $_POST['username'];
+	$password1 = $_POST['password1'];
+	$password2 = $_POST['password2'];
+	$fname = $_POST['fname'];
+	$lname = $_POST['lname'];
+	$email = $_POST['email'];
+	$phone = $_POST['phone'];
+	$address = $_POST['address'];
+	
+	// check to make sure we have username
+	if (!$username) {
+		punt("Please enter a username");
+	}
+
+	if (!$password1) {
+		punt("Please enter a password");
+	}
+
+	if (!$password2) {
+		punt("Please enter your password twice");
+	}
+	
+	if ($password1 != $password2) {
+		punt("Your two passwords are not the same");
+	}
+
+	// check if username already in database
+		// connect to database
+	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+	
+	// set up my query
+	$query = "SELECT Username FROM Person_T WHERE Username='$username';";
+	
+	// run the query
+	$result = queryDB($query, $db);
+	
+	// check if the username is there
+	if (nTuples($result) > 0) {
+		punt("The username $username is already taken");
+	}
+	
+	// generate hashed password
+	$hashedPass = crypt($password1, getSalt());
+	
+	// set up my query
+	$query = "INSERT INTO Person_T(Username, HashedPass, LName, FName, Email, Phonenumber, Address) VALUES ('$username', '$hashedPass', '$lname', '$fname', '$email', '$phone', '$address');";
+	
+	// run the query
+	$result = queryDB($query, $db);
+	
+	// tell users that we added the person to the database
+	echo "<div class='panel panel-default'>\n";
+	echo "\t<div class='panel-body'>\n";
+    echo "\t\tThe user " . $username . " was added to the database\n";
+	echo "</div></div>\n";
+	
+}
+?>
 <div class="container">
 <!--This is a center block, helps keep vertyhing in the center for the theme-->
 <div class="center-block col-md-12" style="float: none; background-color: #52BE80">
@@ -34,52 +105,53 @@ a profile requesting specific information. Orginally created by Trenton, if you 
 	</div>
 	
 <!--FORM INPUT FOR NEW USER -->
+	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">	
 	<form class="form-horizontal">
 		<h4><font color="white">User Info </font></h4>
-		<!--Username id= username -->
+		<!--Username name= username -->
 		<div class="form-group">
-			<div class="col-sm-12"> <input type="text" class="form-control" id="username" placeholder="Username"> </div>
+			<div class="col-sm-12"> <input type="text" class="form-control" name="username" placeholder="Username"> </div>
 		</div>
 
-		<!-- Password1 id= password1 -->
+		<!-- Password1 name= password1 -->
 		<div class="form-group">
-			<div class="col-sm-12"> <input type="password" class="form-control" id="password1" placeholder="Password"> </div>
+			<div class="col-sm-12"> <input type="password" class="form-control" name="password1" placeholder="Password"> </div>
 		</div>
 		
 		
-		<!-- Password2 id= password2 -->
+		<!-- Password2 name= password2 -->
 		<div class="form-group">
-			<div class="col-sm-12"> <input type="password" class="form-control" id="password2" placeholder="Repeat Password"> </div>
+			<div class="col-sm-12"> <input type="password" class="form-control" name="password2" placeholder="Repeat Password"> </div>
 		</div>
 		<br>
 		
 		
 		<h4><font color="white">Personal Info </font></h4>
-		<!-- First Name id= fname --->
+		<!-- First Name name= fname --->
 		<div class="form-group">
-			<div class="col-sm-12"> <input type="text" class="form-control" id="fname" placeholder="First Name"> </div>
+			<div class="col-sm-12"> <input type="text" class="form-control" name="fname" placeholder="First Name"> </div>
 		</div>
 		
-		<!-- Last Name id= lname-->
+		<!-- Last Name name= lname-->
 		<div class="form-group">
-			<div class="col-sm-12"> <input type="text" class="form-control" id="lname" placeholder="Last Name"> </div>
+			<div class="col-sm-12"> <input type="text" class="form-control" name="lname" placeholder="Last Name"> </div>
 		</div>
-		<!-- Email id= email -->
+		<!-- Email name= email -->
 		<div class="form-group">
-			<div class="col-sm-12"> <input type="text" class="form-control" id="email" placeholder="E-mail ##@example.com"> </div>
+			<div class="col-sm-12"> <input type="text" class="form-control" name="email" placeholder="E-mail ##@example.com"> </div>
 		</div>
 		
-		<!--Phone Number id= phone-->
+		<!--Phone Number name= phone-->
 		<div class="form-group">
-			<div class="col-sm-12"> <input type="text" class="form-control" id="phone" placeholder="Phone Number ###-###-####"> </div>
+			<div class="col-sm-12"> <input type="text" class="form-control" name="phone" placeholder="Phone Number ###-###-####"> </div>
 		</div>		
-		<!--Address id= adress -->
+		<!--Address name= address -->
 		<div class="form-group">
-			<div class="col-sm-12"> <input type="text" class="form-control" id="adress" placeholder="Address"> </div>
+			<div class="col-sm-12"> <input type="text" class="form-control" name="address" placeholder="Address"> </div>
 		</div>		
 		
 		<!--SUBMIT BUTTON -->
-		<center><button type="submit" class="btn btn-default btn-lg">Submit</button></center>
+		<center><button type="submit" class="btn btn-default btn-lg" name="submit">Submit</button></center>
 		<br><br>
 	</form>
 </body>

@@ -15,8 +15,8 @@
 					<li><a href="home.php">HOME</a></li>
 					<li><a href="jobs.php">JOBS</a></li>
 					<li><a href="hours.php">HOURS</a></li>
-					<li><a href="paystub.php">PAY STUBS</a></li>
-					<li><a href="">LOG OUT</a></li>
+					<li><a href="">PAY STUBS</a></li>
+					<li><a href="logout.php">LOG OUT</a></li>
 				</ul>
 			</div>
 		</div>

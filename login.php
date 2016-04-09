@@ -1,3 +1,67 @@
+<?php
+	include_once('config.php');
+	include_once('dbutils.php');
+?>
+
+<?php
+// PHP to log users in if they have a database entry
+
+//POST on submit button pressed
+if (isset($_POST['submit'])) {
+	
+	
+//	echo '<p>we are processing form data</p>';
+//	print_r($_POST);
+
+	// get data from the input fields
+	$username = $_POST['username'];
+	$password = $_POST['password'];
+	
+	
+	// check to make sure we have an username
+	if (!$username) {
+		header("Location: login.php");
+	}
+	
+	if (!$password) {
+		header("Location: login.php");
+	}
+
+	// check if user is in the database
+		// connect to database
+	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+	
+	// set up my query
+	$query = "SELECT Username, HashedPass FROM Person_T WHERE Username='$username';";
+	
+	// run the query
+	$result = queryDB($query, $db);
+	
+	
+	// check if the username is there
+	if (nTuples($result) > 0) {
+		$row = nextTuple($result);
+		
+		if ($row['HashedPass'] == crypt($password, $row['HashedPass'])) {
+			// Password is correct
+			if (session_start()) {
+				$_SESSION['username'] = $username;
+				header('Location: home.php');
+			} else {
+				punt("Unable to create session");
+			}
+		} else {
+			// Password is not correct
+			punt('The password you entered is incorrect');
+		}
+	} else {
+		punt("The username '$username' is not in our database");
+	}	
+	
+}
+
+?>
+
 <html>
 <!--
 This page set to be the main page. The page the user first visit. Here the user will
@@ -39,20 +103,21 @@ Orginally created by Trenton, if you have an questions ask.
 	</div>
 
 <!-- LOG IN FORMS -->
+	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<form class="form-horizontal">
 		<center>
-		<!-- Username id=username -->
+		<!-- Username name=username -->
 		<div class="form-group">
-			<div class="col-sm-12"> <input type="text" class="form-control" id="username" placeholder="Username"> </div>
+			<div class="col-sm-12"> <input type="text" class="form-control" name="username" placeholder="Username"> </div>
 		</div>
 		
-		<!-- Password id=password -->
+		<!-- Password name=password -->
 		<div class="form-group">
-			<div class="col-sm-12"> <input type="password" class="form-control" id="password" placeholder="Password"> </div>
+			<div class="col-sm-12"> <input type="password" class="form-control" name="password" placeholder="Password"> </div>
 		</div>
 		<br>
 		<!-- Log In Button-->
-		<button type="submit" class="btn btn-default btn-lg">Log In </button>
+		<button type="submit" class="btn btn-default btn-lg" name="submit">Log In </button>
 		
 		<!--Create New User Button... Goes to newuser.php ..-->
 		<a class="btn btn-default btn-lg" href="newuser.php" role="button"> Join </a>
