@@ -58,13 +58,27 @@ Orginally created by Trenton, if you have an questions ask.
             </tr>
         </thead>
         <tbody>
-              <tr>
-                <td><a href="admin-user.php">John</a></td>
-                <td>Janitor</td>
-                <td><a href="">Office Place</a></td>
-                <td>1</td>
-                <td>123 Blah LN</td>
-              </tr>  
+			<?php
+			
+			$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+			
+			$result = queryDB("SELECT Person_T.FName, Person_T.LName, Person_T.Address, Person_T.PID, Business_T.Business_Name, Job_T.Position, FROM Person_T, Business_T, Job_T WHERE Person_T.PID = Job_T.PID and Business_T.BID = Job_T.BID ORDER BY PID;", $db);
+			
+			// Back to PHP to handle the rows in the table, tuple by tuple.
+			while ($row=nextTuple($result)) {
+				
+				// Useful for debugging; leave commented out otherwise.
+				// echo "\n<!-- ", print_r($row), " -->\n";
+				echo "\n <tr>";
+				echo "<td>" . $row['FName'] $row['LName'] . "</td>"; //need to add a hyperlink to these rows
+				echo "<td>" . $row['Position'] . "</td>";
+				echo "<td>" . $row['Business_Name'] . "</td>";
+				echo "<td>" . $row['PID'] . "</td>";
+				echo "<td>" . $row['Address'] . "</td>";
+				echo "</tr>";
+				
+			  }
+			?>
         </tbody>
     </table>
     
