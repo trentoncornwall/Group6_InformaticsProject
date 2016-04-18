@@ -4,6 +4,16 @@ This page is reached after user logs in. This is their home. Access to everythin
 Orginally created by Trenton, if you have an questions ask.
 -->
 <header>
+	
+<?php
+// check if user logged in, if not, kick them to login.php
+session_start();
+if(!isset($_SESSION['username'])) {
+	// if this is not set, it means they are not logged in
+	header("Location: login.php");
+}
+?>	
+	
 <title> Home </title>
 
 <!-- BOOTSTRAP CODE -->
@@ -70,14 +80,14 @@ Orginally created by Trenton, if you have an questions ask.
 			
 				<!--Date id=s_date -->
 				<div class="form-group">
-						<input class="form-control" id="s_date" name="s_date" placeholder="MM/DD/YYYY" type="text"/>
+						<input class="form-control" id="s_date" name="s_date" placeholder=" Start Date yyyy-mm-dd" type="text"/>
 				</div>
 				
 				<script>
 					var date_input=$('input[name="s_date"]'); //our date input has the name "date"
 					var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
 					var options={
-						format: 'mm/dd/yyyy',
+						format: 'yyyy-mm-dd'',
 						container: container,
 						todayHighlight: true,
 						autoclose: true,
@@ -89,14 +99,14 @@ Orginally created by Trenton, if you have an questions ask.
 				
 				<!--Date id=paydate -->
 				<div class="form-group">
-						<input class="form-control" id="paydate" name="paydate" placeholder="MM/DD/YYYY" type="text"/>
+						<input class="form-control" id="paydate" name="paydate" placeholder="End Date yyyy-mm-dd" type="text"/>
 				</div>
 				
 				<script>
 					var date_input=$('input[name="paydate"]'); //our date input has the name "date"
 					var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
 					var options={
-						format: 'mm/dd/yyyy',
+						format: 'yyyy-mm-dd',
 						container: container,
 						todayHighlight: true,
 						autoclose: true,
