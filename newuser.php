@@ -151,7 +151,7 @@ if (isset($_POST['submit'])) {
 		</div>		
 		
 		<!--SUBMIT BUTTON -->
-		<center><button type="submit" class="btn btn-default btn-lg" name="submit">Submit</button></center>
+		<center><button type="submit" class="btn btn-default btn-lg" name="submit" href="login.php">Submit</button></center>
 		<br><br>
 	</form>
 </body>

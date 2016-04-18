@@ -4,6 +4,18 @@ This page is reached after user logs in. This is their home. Access to everythin
 Orginally created by Trenton, if you have an questions ask.
 -->
 <header>
+
+<?php
+// check if user logged in, if not, kick them to login.php
+session_start();
+if(!isset($_SESSION['username'])) {
+	// if this is not set, it means they are not logged in
+	header("Location: login.php");
+}
+
+?>
+
+
 <title> Home </title>
 
 <!-- BOOTSTRAP CODE -->
@@ -29,13 +41,14 @@ Orginally created by Trenton, if you have an questions ask.
 
 
 <body>
-<div class="container">
+<div class="container col-xs-12">
 <!--NAV BAR -->
 <?php
 	include_once('navbar.php')
 ?>
 <!--This is a center block, helps keep vertyhing in the center for the theme-->
-<div class="center-block col-sm-12" style="float: none; background-color: #52BE80">
+
+<div class="center-block" style="float: none; background-color: #52BE80">
 
 <!-- PAGE HEADER -->
 	<div class="col-xs-12">
