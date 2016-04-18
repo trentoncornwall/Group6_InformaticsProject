@@ -70,14 +70,14 @@ Orginally created by Trenton, if you have an questions ask.
 			
 				<!--Date id=date -->
 				<div class="form-group">
-						<input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+						<input class="form-control" id="date" name="Hours_date" placeholder="YYYY-MM-DD" type="text"/>
 				</div>
 				
 				<script>
 					var date_input=$('input[name="date"]'); //our date input has the name "date"
 					var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
 					var options={
-						format: 'mm/dd/yyyy',
+						format: 'yyyy-mm-dd',
 						container: container,
 						todayHighlight: true,
 						autoclose: true,
