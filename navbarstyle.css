@@ -7,7 +7,7 @@
     letter-spacing: 4px;
     opacity:0.9;
 }
-
+ 
 /* Add a gray color to all navbar links */
 .navbar li a, .navbar .navbar-brand { 
     color: black !important;
@@ -38,6 +38,4 @@
 /* Dropdown links */
 .dropdown-menu li a {
     color: #000 !important;
-}
-
 }
