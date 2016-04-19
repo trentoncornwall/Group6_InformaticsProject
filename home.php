@@ -6,6 +6,9 @@ Orginally created by Trenton, if you have an questions ask.
 <header>
 
 <?php
+	include_once('config.php');
+	include_once('dbutils.php');
+
 // check if user logged in, if not, kick them to login.php
 session_start();
 if(!isset($_SESSION['username'])) {
@@ -13,7 +16,9 @@ if(!isset($_SESSION['username'])) {
 	header("Location: login.php");
 }
 
+$menuActive="0"	
 ?>
+
 
 
 <title> Home </title>
@@ -31,28 +36,30 @@ if(!isset($_SESSION['username'])) {
 <style>
 .container {
 	padding: 60px 20px;
+	letter-spacing: 2px;
 }
 .container-2 {
-	padding: 60px 120px;	
+	padding: 20px 20px;	
 }
+
 </style>
 </header>
 
 
 
 <body>
-<div class="container col-xs-12">
+<div class="container">
 <!--NAV BAR -->
 <?php
 	include_once('navbar.php')
 ?>
 <!--This is a center block, helps keep vertyhing in the center for the theme-->
 
-<div class="center-block" style="float: none; background-color: #52BE80">
+<div class="center-block col-sm-12" style="float: none; background-color: #52BE80">
 
 <!-- PAGE HEADER -->
 	<div class="col-xs-12">
-		<h1><center><font color="White"><strong> Welcome </strong></font></center><hr></h1>
+		<h1><center><font color="White"><strong> Welcome </strong></font></center><hr width="50%"></h1>
 	</div>
 	
 

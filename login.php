@@ -47,6 +47,7 @@ if (isset($_POST['submit'])) {
 			if (session_start()) {
 				$_SESSION['username'] = $username;
 				header('Location: home.php');
+				
 			} else {
 				punt("Unable to create session");
 			}
@@ -84,6 +85,7 @@ Orginally created by Trenton, if you have an questions ask.
 <style>
 .container {
 	padding: 60px 20px;
+	letter-spacing: 2px;
 }
 </style>
 
@@ -99,12 +101,11 @@ Orginally created by Trenton, if you have an questions ask.
 	
 <!-- PAGE HEADER -->
 	<div class="col-xs-12">
-		<h1><center><font color="White"><strong> Log In </strong></font><hr><br></center></h1>
+		<h1><center><font color="White"><strong> Log In </strong></font><hr width="50%"><br></center></h1>
 	</div>
 
 <!-- LOG IN FORMS -->
-	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-	<form class="form-horizontal">
+	<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<center>
 		<!-- Username name=username -->
 		<div class="form-group">

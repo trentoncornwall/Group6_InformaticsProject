@@ -24,6 +24,7 @@ a profile requesting specific information. Orginally created by Trenton, if you 
 <style>
 .container {
 	padding: 60px 20px;
+	letter-spacing: 2px;
 }
 </style>
 
@@ -93,6 +94,8 @@ if (isset($_POST['submit'])) {
     echo "\t\tThe user " . $username . " was added to the database\n";
 	echo "</div></div>\n";
 	
+	header('Location: login.php');
+	
 }
 ?>
 <div class="container">
@@ -101,12 +104,11 @@ if (isset($_POST['submit'])) {
 
 <!-- PAGE HEADER -->
 	<div class="col-xs-12">
-		<h1><center><font color="white"><strong> New User </strong></font><hr></center></h1>
+		<h1><center><font color="white"><strong> New User </strong></font><hr width="50%"></center></h1>
 	</div>
 	
 <!--FORM INPUT FOR NEW USER -->
-	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">	
-	<form class="form-horizontal">
+	<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<h4><font color="white">User Info </font></h4>
 		<!--Username name= username -->
 		<div class="form-group">
@@ -151,9 +153,10 @@ if (isset($_POST['submit'])) {
 		</div>		
 		
 		<!--SUBMIT BUTTON -->
-		<center><button type="submit" class="btn btn-default btn-lg" name="submit" href="login.php">Submit</button></center>
+		<center><button type="submit" class="btn btn-default btn-lg" name="submit">Submit</button></center>
 		<br><br>
 	</form>
+
 </body>
 
 <footer>

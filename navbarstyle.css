@@ -20,7 +20,7 @@
 
 /* The active link */
 .navbar-nav li.active a {
-    color: #52BE80 !important;
+    color: #29292c !important;
     background-color:#29292c !important;
 }
 
