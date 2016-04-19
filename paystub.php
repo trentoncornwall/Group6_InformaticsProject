@@ -123,20 +123,14 @@ $menuActive="3"
 
 				<!--id=hours-->
 				<div class="form-group">
-						<input type="number" class="form-control" name="amount" placeholder="Hours">
+						<input type="number" class="form-control" name="hours" placeholder="Hours">
 				</div>
 				  
 				
 				<!-- Drop down box for jobs -->
-				<div class="form-group">
-				<select class="form-control">
-					<option value="one">Job Example</option>
-					<option value="two">University of Iowa</option>
-					<option value="three">Fill in these</option>
-					<option value="four">Useing a query command</option>
-				</select>
-				</div>
+				<select class="form-control"><?php echo $Business_Options; ?></select>		
 				<br>
+				
 				<!--SUBMIT BUTTON -->
 				<div class="form-group"> 
 					<center><button class="btn btn-default btn-lg" name="submit" type="submit">Submit</button></center>
@@ -163,7 +157,7 @@ if (isset($_POST['submit'])) {
 	$hours = $_POST['hours'];
 	
     if ($amount != ''){
-		/*
+		
         // connect to database
         $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
             
@@ -174,12 +168,8 @@ if (isset($_POST['submit'])) {
         $result = queryDB($query, $db);
         
         echo "Pay Stub was added";
-*/
     }
-/*
-    else
-        echo "nothing was entered"
-	*/
+
 }
 
 ?>
