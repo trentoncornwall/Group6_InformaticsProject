@@ -1,8 +1,4 @@
 <html>
-<!--
-This page is reached after user logs in. This is their home. Access to everything
-Orginally created by Trenton, if you have an questions ask.
--->
 <header>
 <title> Home </title>
 

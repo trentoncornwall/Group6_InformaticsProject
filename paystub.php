@@ -4,7 +4,18 @@ This page is reached after user logs in. This is their home. Access to everythin
 Orginally created by Trenton, if you have an questions ask.
 -->
 <header>
-<title> Home </title>
+	
+<?php
+// check if user logged in, if not, kick them to login.php
+session_start();
+if(!isset($_SESSION['username'])) {
+	// if this is not set, it means they are not logged in
+	header("Location: login.php");
+}
+$menuActive="3"
+?>	
+	
+<title> Paystub </title>
 
 <!-- BOOTSTRAP CODE -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -32,6 +43,7 @@ Orginally created by Trenton, if you have an questions ask.
 <style>
 .container {
 	padding: 60px 20px;
+	letter-spacing: 2px;
 }
 .container-2 {
 	padding: 60px 120px;	
@@ -52,7 +64,7 @@ Orginally created by Trenton, if you have an questions ask.
 
 <!-- PAGE HEADER -->
 	<div class="col-xs-12">
-		<h1><center><font color="White"><strong> Paystub </strong></font></center><hr></h1>
+		<h1><center><font color="White"><strong> Paystub </strong></font></center><hr width="50%"></h1>
 	</div>
 	
 
@@ -66,18 +78,18 @@ Orginally created by Trenton, if you have an questions ask.
 			<div class="row">
 
 			<!--Form Code Begins-->
-			<form method="post">
+			<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 			
 				<!--Date id=s_date -->
 				<div class="form-group">
-						<input class="form-control" id="s_date" name="s_date" placeholder="MM/DD/YYYY" type="text"/>
+						<input class="form-control" id="s_date" name="s_date" placeholder=" Start Date yyyy-mm-dd" type="text"/>
 				</div>
 				
 				<script>
 					var date_input=$('input[name="s_date"]'); //our date input has the name "date"
 					var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
 					var options={
-						format: 'mm/dd/yyyy',
+						format: 'yyyy-mm-dd',
 						container: container,
 						todayHighlight: true,
 						autoclose: true,
@@ -89,14 +101,14 @@ Orginally created by Trenton, if you have an questions ask.
 				
 				<!--Date id=paydate -->
 				<div class="form-group">
-						<input class="form-control" id="paydate" name="paydate" placeholder="MM/DD/YYYY" type="text"/>
+						<input class="form-control" id="e_date" name="e_date" placeholder="End Date yyyy-mm-dd" type="text"/>
 				</div>
 				
 				<script>
-					var date_input=$('input[name="paydate"]'); //our date input has the name "date"
+					var date_input=$('input[name="e_date"]'); //our date input has the name "date"
 					var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
 					var options={
-						format: 'mm/dd/yyyy',
+						format: 'yyyy-mm-dd',
 						container: container,
 						todayHighlight: true,
 						autoclose: true,
@@ -104,31 +116,26 @@ Orginally created by Trenton, if you have an questions ask.
 					date_input.datepicker(options); //initiali110/26/2015 8:20:59 PM ze plugin
 				</script>
 				
-				<!--Hours-->
-				<form class="form-inline">
+				<div class="form-group">
+						<input type="number" class="form-control" name="amount" placeholder="Amount (in dollars)">
+				</div>
 				
-					<div class="form-group">
-						<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
-					<div class="input-group">
-				
+
 				<!--id=hours-->
-						<input type="text" class="form-control" id="hours" placeholder="Hours">
-						<div class="input-group-addon"> </div>
-				<!--id=minutes-->
-						<input type="text" class="form-control" id="minutes" placeholder="Minutes">
-					</div>
-					</div>
+				<div class="form-group">
+						<input type="number" class="form-control" name="amount" placeholder="Hours">
+				</div>
 				  
-				</form>
 				
 				<!-- Drop down box for jobs -->
-				
+				<div class="form-group">
 				<select class="form-control">
 					<option value="one">Job Example</option>
 					<option value="two">University of Iowa</option>
 					<option value="three">Fill in these</option>
 					<option value="four">Useing a query command</option>
-				</select>		
+				</select>
+				</div>
 				<br>
 				<!--SUBMIT BUTTON -->
 				<div class="form-group"> 
@@ -136,14 +143,49 @@ Orginally created by Trenton, if you have an questions ask.
 				</div>
 			</form>
 			
-			<!--JAVASCRIPT to control the calander--->
-			
 			
 			</div>
 		</div>
 	</div>
 
 </div>
+
+
+<?php
+
+//check to make sure it was submited
+	// create varibles to enter into query
+if (isset($_POST['submit'])) {
+	
+	$s_date = $_POST['s_date'];
+	$e_date = $_POST['e_date'];
+	$amount = $_POST['amount'];
+	$hours = $_POST['hours'];
+	
+    if ($amount != ''){
+		/*
+        // connect to database
+        $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+            
+        // set the query
+        $query = "INSERT INTO Paystub_T (Amount, Stub_Hours, S_Date, E_Date) VALUES ('$amount', '$hours', '$s_date', '$e_date');";
+        
+        // run the query
+        $result = queryDB($query, $db);
+        
+        echo "Pay Stub was added";
+*/
+    }
+/*
+    else
+        echo "nothing was entered"
+	*/
+}
+
+?>
+
+
+
 </body>
 
 

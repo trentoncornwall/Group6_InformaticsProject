@@ -1,9 +1,13 @@
 <html>
+
 <!--
 This page is reached after user logs in. This is their home. Access to everything
 Orginally created by Trenton, if you have an questions ask.
 -->
 <header>
+<?php
+$menuActive="2"
+?>
 <title> Home </title>
 
 <!-- BOOTSTRAP CODE -->
@@ -27,11 +31,11 @@ Orginally created by Trenton, if you have an questions ask.
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
 
-
 <!--ADDITIONAL CSS-->
 <style>
 .container {
 	padding: 60px 20px;
+	letter-spacing: 2px;
 }
 .container-2 {
 	padding: 60px 120px;	
@@ -52,7 +56,7 @@ Orginally created by Trenton, if you have an questions ask.
 
 <!-- PAGE HEADER -->
 	<div class="col-xs-12">
-		<h1><center><font color="White"><strong> Hours </strong></font></center><hr></h1>
+		<h1><center><font color="White"><strong> Hours </strong></font></center><hr width="50%"></h1>
 	</div>
 	
 
@@ -104,12 +108,7 @@ Orginally created by Trenton, if you have an questions ask.
 				
 				<!-- Drop down box for jobs -->
 				
-				<select class="form-control">
-					<option value="one">Job Example</option>
-					<option value="two">University of Iowa</option>
-					<option value="three">Fill in these</option>
-					<option value="four">Useing a query command</option>
-				</select>		
+				<select class="form-control"><?php echo $Business_Options; ?></select>		
 				<br>
 				<!--SUBMIT BUTTON -->
 				<div class="form-group"> 
