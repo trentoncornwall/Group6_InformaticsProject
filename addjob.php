@@ -107,57 +107,22 @@ if (isset($_POST['submit'])) {
 
 <!-- PAGE HEADER -->
 	<div class="col-xs-12">
-		<h1><center><font color="White"><strong> Jobs </strong></font></center><hr width="50%"></h1>
+		<h1><center><font color="White"><strong> Add New Business </strong></font></center><hr width="50%"></h1>
 	</div>
-	
-
-
-<!--List of Current Jobs-->
-	<h4><font color="white"><b>Current Jobs</b></font></h4>
-	<!--TABLE THAT SHOWS JOBS OF USER-->
-
-<?php
-	
-	
-//CREATING QUERY TO VIEW Business DROP BOX
-$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-$query = "SELECT BID, Business_Name, Business_Address FROM Business_T ORDER BY Business_Name;";
-$result = queryDB($query, $db);
-
-$Business_Options = "";
-
-if (nTuples($result) > 0) {
-    while ($row=nextTuple($result)) {
-		$Business_Options .= "\t\t\t";
-		$Business_Options .= "<option value='";
-		$Business_Options .= $row['BID'] . "'>" . $row['Business_Name'] .  $row['Business_Address'] . "</option>\n";
-		}
-	}
-?>
-
 	
 	
 	<!--ADD JOBS-->
 	<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-		<h4><font color="white"><b>Add Job </b></font></h4>
-
-		<!-- Shows Business name and address GROUP -->
-		<div class="form-group"><div class="col-sm-12">
-		<div class="input-group">
-			<!-- Drop down box -->
-			<select class="form-control"><?php echo $Business_Options; ?></select>
-				
-				<!-- button to add a new job -->
-				<div class="input-group-btn">
-					<a class="btn btn-default" href="addjob.php" type="button">Don't see your Business?</a>
-				</div>
-		</div>
-		</div>
+		<h4><font color="white"><b>Add Business </b></font></h4>
+		
+		<!--Business Name name= Business_Name-->
+		<div class="form-group">
+			<div class="col-sm-12"> <input type="text" class="form-control" name="Business_Name" placeholder="Business Name"> </div>
 		</div>
 		
-		<!--Business Address name= Position-->
+		<!--Business Address name= Business_Address-->
 		<div class="form-group">
-			<div class="col-sm-12"> <input type="text" class="form-control" name="Position" placeholder="Your Position"> </div>
+			<div class="col-sm-12"> <input type="text" class="form-control" name="Business_Address" placeholder="Business Address"> </div>
 		</div>
 		
 		<!--BUTTON-->
