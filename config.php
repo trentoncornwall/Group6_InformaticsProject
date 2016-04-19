@@ -4,17 +4,17 @@
 // Server information.
 $Proto = "http://";
 $Host = $_SERVER['SERVER_NAME'];
-$Base = "/~tcomer/project/";
+$Base = "/~tcornwall/Group6_InformaticsProject/login.php";
 
 // Title to use in browser title bar.
-$Title = "YouTube Songs";
-$Name = "TJ Comer";
-$Email = "travis-comer@uiowa.edu";
+$Title = "Group6_InformaticsProject";
+$Name = "Trenton Cornwall";
+$Email = "trenton-cornwall@uiowa.edu";
+$Logo = "";
 
-
-// DB connection (from  mysql_db_info file).
-$DBUser = "tcomer";
-$DBName = "db_tcomer";
+// DB connection (on localhost, the web server).
+$DBName = "db_tcornwall";
 $DBHost = "dbdev.cs.uiowa.edu";
-$DBPasswd = "UdK8ox+wb8pT";
+$DBUser = "tcornwall";
+$DBPasswd = "rZ2SgC_GrAMn";
 ?>
