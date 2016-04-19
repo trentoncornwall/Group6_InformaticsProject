@@ -76,7 +76,7 @@ if(!isset($_SESSION['username'])) {
 			<div class="row">
 
 			<!--Form Code Begins-->
-			<form method="post">
+			<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 			
 				<!--Date id=s_date -->
 				<div class="form-group">
@@ -114,14 +114,13 @@ if(!isset($_SESSION['username'])) {
 					date_input.datepicker(options); //initiali110/26/2015 8:20:59 PM ze plugin
 				</script>
 				
+				<div class="form-group">
+						<input type="number" class="form-control" name="amount" placeholder="Amount (in dollars)"
+				</div>
+				
 				<!--Hours-->
 				<form class="form-inline">
 				
-					<div class="form-group">
-						<input type="number" class="form-control" name="amount" placeholder="Amount (in dollars)"
-					</div>
-					
-					
 					<div class="form-group">	
 					<div class="input-group">
 				<!--id=hours-->
@@ -149,14 +148,49 @@ if(!isset($_SESSION['username'])) {
 				</div>
 			</form>
 			
-			<!--JAVASCRIPT to control the calander--->
-			
 			
 			</div>
 		</div>
 	</div>
 
 </div>
+
+
+<?php
+
+//check to make sure it was submited
+	// create varibles to enter into query
+if (isset($_POST['submit'])) {
+	
+	$s_date = $_POST['s_date'];
+	$e_date = $_POST['e_date'];
+	$amount = $_POST['amount'];
+	$hours = $_POST['hours'];
+	
+    if ($amount != ''){
+		/*
+        // connect to database
+        $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+            
+        // set the query
+        $query = "INSERT INTO Paystub_T (Amount, Stub_Hours, S_Date, E_Date) VALUES ('$amount', '$hours', '$s_date', '$e_date');";
+        
+        // run the query
+        $result = queryDB($query, $db);
+        
+        echo "Pay Stub was added";
+*/
+    }
+/*
+    else
+        echo "nothing was entered"
+	*/
+}
+
+?>
+
+
+
 </body>
 
 
