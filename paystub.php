@@ -14,7 +14,7 @@ if(!isset($_SESSION['username'])) {
 }
 ?>	
 	
-<title> Home </title>
+<title> Paystub </title>
 
 <!-- BOOTSTRAP CODE -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -118,14 +118,17 @@ if(!isset($_SESSION['username'])) {
 				<form class="form-inline">
 				
 					<div class="form-group">
-						<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+						<input type="number" class="form-control" name="amount" placeholder="Amount (in dollars)"
+					</div>
+					
+					
+					<div class="form-group">	
 					<div class="input-group">
-				
 				<!--id=hours-->
-						<input type="text" class="form-control" id="hours" placeholder="Hours">
+						<input type="text" class="form-control" name="hours" placeholder="Hours">
 						<div class="input-group-addon"> </div>
 				<!--id=minutes-->
-						<input type="text" class="form-control" id="minutes" placeholder="Minutes">
+						<input type="text" class="form-control" name="minutes" placeholder="Minutes">
 					</div>
 					</div>
 				  
