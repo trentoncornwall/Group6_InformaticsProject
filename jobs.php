@@ -77,11 +77,7 @@ if (isset($_POST['submit'])) {
 	$result = queryDB($query, $db);
 	$PID = $result;
 	
-	echo "<div class='panel panel-default'>\n";
-	echo "<br><br><br><br>";
-	echo "\t<div class='panel-body'>\n";
-    echo "\t\tThe user " . $PID . " was added to the database\n";
-	echo "</div></div>\n";
+
 	$BID = $_POST['BID'];
 	
 	$query = "INSERT p.PID, b.BID FROM Person_T as p, Business_T as b INTO Job_T(PID, BID) VALUES ('$PID', '$BID');";
@@ -108,7 +104,7 @@ if (isset($_POST['submit'])) {
 	
 //CREATING QUERY TO VIEW Business DROP BOX
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-$query = "SELECT BID, Business_Name, Business_Address FROM Business_T ORDER BY Business_Name;";
+$query = "SELECT BID, Business_Name, Position, Business_Address FROM Business_T ORDER BY Business_Name;";
 $result = queryDB($query, $db);
 
 $Business_Options = "";
@@ -117,7 +113,7 @@ if (nTuples($result) > 0) {
     while ($row=nextTuple($result)) {
 		$Business_Options .= "\t\t\t";
 		$Business_Options .= "<option value='";
-		$Business_Options .= $row['BID'] . "'>" . $row['Business_Name'] .  $row['Business_Address'] . "</option>\n";
+		$Business_Options .= $row['BID'] . "'>" . $row['Business_Name'] . "  -  " . $row['Position'] . "  -  " . $row['Business_Address'] . "</option>\n";
 		}
 	}
 ?>
