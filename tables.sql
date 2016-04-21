@@ -23,6 +23,7 @@ CREATE TABLE Business_T (
   BID int unsigned NOT NULL AUTO_INCREMENT,
   Business_Name varchar(128) NOT NULL,
   Business_Address varchar(128) NOT NULL,
+  Position varchar(128),  
   PRIMARY KEY (BID)
 ) ENGINE=InnoDB;
 
@@ -30,7 +31,6 @@ CREATE TABLE Job_T (
   JID int unsigned NOT NULL AUTO_INCREMENT,
   PID int unsigned NOT NULL,
   BID int unsigned NOT NULL,
-  Position varchar(128),  
   PRIMARY KEY (JID),
   FOREIGN KEY (PID) REFERENCES Person_T(PID),
   FOREIGN KEY (BID) REFERENCES Business_T(BID)

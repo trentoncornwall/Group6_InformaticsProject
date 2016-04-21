@@ -83,6 +83,9 @@ if (isset($_POST['submit'])) {
 	if (!$Business_Address) {
 		punt("Please enter a Business Address");
 	}
+	if (!Position) {
+		punt ("Please enter a Position");
+	}
 	
 	
 
@@ -92,8 +95,9 @@ if (isset($_POST['submit'])) {
 	
 
 	// Business TABLE FIRST
-	$query = "INSERT INTO Business_T(Business_Name, Business_Address) VALUES ('$Business_Name', '$Business_Address');";
+	$query = "INSERT INTO Business_T(Business_Name, Business_Address, Position) VALUES ('$Business_Name', '$Business_Address', '$Position');";
 	$result = queryDB($query, $db);
+	header('Location: jobs.php');
 	
 	// Job Table NEXT
 	// HAD AN ERROR TALK TO TEAM
@@ -123,6 +127,11 @@ if (isset($_POST['submit'])) {
 		<!--Business Address name= Business_Address-->
 		<div class="form-group">
 			<div class="col-sm-12"> <input type="text" class="form-control" name="Business_Address" placeholder="Business Address"> </div>
+		</div>
+		
+		<!--Business Address name= Position-->
+		<div class="form-group">
+			<div class="col-sm-12"> <input type="text" class="form-control" name="Position" placeholder="Your Position"> </div>
 		</div>
 		
 		<!--BUTTON-->

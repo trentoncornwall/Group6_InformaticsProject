@@ -70,36 +70,23 @@ Orginally created by Trenton, if you have an questions ask.
 if (isset($_POST['submit'])) {
 //	echo '<p>we are processing form data</p>';
 //	print_r($_POST);
-
-	// get data from the input fields
-	$Business_Name = $_POST['Business_Name'];
-	$Business_Address = $_POST['Business_Address'];
-	$Position = $_POST['Position'];
-	
-
-	if (!$Business_Name) {
-		punt("Please enter a Business Name");
-	}
-	if (!$Business_Address) {
-		punt("Please enter a Business Address");
-	}
-	
-	
-
-
 	// connect
+	$Username = $_SESSION['username'];
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-	
-
-	// Business TABLE FIRST
-	$query = "INSERT INTO Business_T(Business_Name, Business_Address) VALUES ('$Business_Name', '$Business_Address');";
+	$query = "SELECT PID FROM Person_T WHERE Username = '$Username';";
 	$result = queryDB($query, $db);
+	$PID = $result;
 	
-	// Job Table NEXT
-	// HAD AN ERROR TALK TO TEAM
+	echo "<div class='panel panel-default'>\n";
+	echo "<br><br><br><br>";
+	echo "\t<div class='panel-body'>\n";
+    echo "\t\tThe user " . $PID . " was added to the database\n";
+	echo "</div></div>\n";
+	$BID = $_POST['BID'];
 	
-
-	
+	$query = "INSERT p.PID, b.BID FROM Person_T as p, Business_T as b INTO Job_T(PID, BID) VALUES ('$PID', '$BID');";
+	$result = queryDB($query,$db);
+		
 }
 ?>
 
@@ -145,7 +132,7 @@ if (nTuples($result) > 0) {
 		<div class="form-group"><div class="col-sm-12">
 		<div class="input-group">
 			<!-- Drop down box -->
-			<select class="form-control"><?php echo $Business_Options; ?></select>
+			<select class="form-control" name="BID"><?php echo $Business_Options; ?></select>
 				
 				<!-- button to add a new job -->
 				<div class="input-group-btn">
@@ -155,10 +142,6 @@ if (nTuples($result) > 0) {
 		</div>
 		</div>
 		
-		<!--Business Address name= Position-->
-		<div class="form-group">
-			<div class="col-sm-12"> <input type="text" class="form-control" name="Position" placeholder="Your Position"> </div>
-		</div>
 		
 		<!--BUTTON-->
 		<center><button type="submit" class="btn btn-default btn-lg" name="submit">Submit</button></center>
