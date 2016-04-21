@@ -1,13 +1,23 @@
+<?php
+	include_once('config.php');
+	include_once('dbutils.php');
+?>
+	
 <html>
-
 <!--
 This page is reached after user logs in. This is their home. Access to everything
 Orginally created by Trenton, if you have an questions ask.
 -->
 <header>
 <?php
+// check if user logged in, if not, kick them to login.php
+session_start();
+if(!isset($_SESSION['username'])) {
+	// if this is not set, it means they are not logged in
+	header("Location: login.php");
+}
 $menuActive="2"
-?>
+?>	
 <title> Home </title>
 
 <!-- BOOTSTRAP CODE -->
@@ -31,11 +41,11 @@ $menuActive="2"
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
 
+
 <!--ADDITIONAL CSS-->
 <style>
 .container {
 	padding: 60px 20px;
-	letter-spacing: 2px;
 }
 .container-2 {
 	padding: 60px 120px;	
@@ -46,6 +56,42 @@ $menuActive="2"
 
 
 <body>
+
+<?php
+// PHP to add hours to database.
+// POST if submit button is pressed
+if (isset($_POST['submit'])) {
+
+	// get data from the input fields
+	$Hours_Date = $_POST['Hours_Date'];
+	$Hours = $_POST['Hours'];
+		
+	// check to make sure fields are entered
+	if (!$Hours_Date) {
+		punt("Please select a date");
+	}
+
+	if (!$Hours) {
+		punt("Please enter how many hours you worked (8.5)");
+	}
+	
+	// connect to database
+	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+	
+	// set up my query
+	$query = "INSERT INTO Hours_T(Hours, Hours_Date) VALUES ('$Hours', '$Hours_Date');";
+	
+	// run the query
+	$result = queryDB($query, $db);
+	
+	// tell users that we added the person to the database
+	echo "<div class='panel panel-default'>\n";
+	echo "\t<div class='panel-body'>\n";
+    echo "\t\tYour Hours have been added.\n";
+	echo "</div></div>\n";
+	
+}
+?>
 <div class="container">
 <!--NAV BAR -->
 <?php
@@ -56,7 +102,7 @@ $menuActive="2"
 
 <!-- PAGE HEADER -->
 	<div class="col-xs-12">
-		<h1><center><font color="White"><strong> Hours </strong></font></center><hr width="50%"></h1>
+		<h1><center><font color="White"><strong> Hours </strong></font></center><hr></h1>
 	</div>
 	
 
@@ -70,15 +116,16 @@ $menuActive="2"
 			<div class="row">
 
 			<!--Form Code Begins-->
-			<form method="post">
+			<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+			 <!-- NOT SURE IF THIS IS CORRECT--!>
 			
 				<!--Date id=date -->
 				<div class="form-group">
-						<input class="form-control" id="date" name="Hours_date" placeholder="YYYY-MM-DD" type="text"/>
+						<input class="form-control" id="date" name="Hours_Date" placeholder="YYYY-MM-DD" type="text"/>
 				</div>
 				
 				<script>
-					var date_input=$('input[name="date"]'); //our date input has the name "date"
+					var date_input=$('input[name="Hours_Date"]'); //our date input has the name "date"
 					var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
 					var options={
 						format: 'yyyy-mm-dd',
@@ -90,6 +137,7 @@ $menuActive="2"
 				</script>
 				
 				<!--Hours-->
+				
 				<form class="form-inline">
 				
 					<div class="form-group">
@@ -97,22 +145,25 @@ $menuActive="2"
 					<div class="input-group">
 				
 				<!--id=hours-->
-						<input type="text" class="form-control" id="hours" placeholder="Hours">
+						<input type="text" class="form-control" id="hours" name="Hours" placeholder="Hours">
 						<div class="input-group-addon"> </div>
-				<!--id=minutes-->
-						<input type="text" class="form-control" id="minutes" placeholder="Minutes">
 					</div>
 					</div>
 				  
 				</form>
 				
 				<!-- Drop down box for jobs -->
-				
-				<select class="form-control"><?php echo $Business_Options; ?></select>		
+				<!-- Insert php and sql to input jobs -->
+				<select class="form-control">
+					<option value="one">Job Example</option>
+					<option value="two">University of Iowa</option>
+					<option value="three">Fill in these</option>
+					<option value="four">Useing a query command</option>
+				</select>		
 				<br>
 				<!--SUBMIT BUTTON -->
 				<div class="form-group"> 
-					<center><button class="btn btn-default btn-lg" name="submit" type="submit">Submit</button></center>
+					<center><button class="btn btn-default btn-lg" id="submit" name="submit" type="submit">Submit</button></center>
 				</div>
 			</form>
 			
