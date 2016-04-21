@@ -75,12 +75,19 @@ if (isset($_POST['submit'])) {
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 	$query = "SELECT PID FROM Person_T WHERE Username = '$Username';";
 	$result = queryDB($query, $db);
-	$PID = $result;
+	
+	$PID = "";
+	if (nTuples($result) > 0) {
+		while ($row=nextTuple($result)) {
+			$PID .= $row['PID'];
+			}
+		}
+		
 	
 
 	$BID = $_POST['BID'];
 	
-	$query = "INSERT p.PID, b.BID FROM Person_T as p, Business_T as b INTO Job_T(PID, BID) VALUES ('$PID', '$BID');";
+	$query = "INSERT INTO Job_T(PID, BID) VALUES ('$PID', '$BID');";
 	$result = queryDB($query,$db);
 		
 }
