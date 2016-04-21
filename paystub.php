@@ -173,7 +173,7 @@ if (isset($_POST['submit'])) {
 	if (!$e_date){
 		punt("Please enter an end date");        
     }
-	if (!$amount=){
+	if (!$amount){
 		punt("Please enter an amount of wage");        
     }
 	if (!$hours){
