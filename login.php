@@ -32,7 +32,7 @@ if (isset($_POST['submit'])) {
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 	
 	// set up my query
-	$query = "SELECT Username, HashedPass FROM Person_T WHERE Username='$username';";
+	$query = "SELECT PID, Username, HashedPass FROM Person_T WHERE Username='$username';";
 	
 	// run the query
 	$result = queryDB($query, $db);
@@ -46,6 +46,8 @@ if (isset($_POST['submit'])) {
 			// Password is correct
 			if (session_start()) {
 				$_SESSION['username'] = $username;
+				$PID = $row['PID'];
+				$_SESSION['PID'] = $PID;
 				header('Location: home.php');
 				
 			} else {
