@@ -152,25 +152,42 @@ $menuActive="3"
 //check to make sure it was submited
 	// create varibles to enter into query
 if (isset($_POST['submit'])) {
+	$Username = $_SESSION['username'];
+	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+	$query = "SELECT PID FROM Person_T WHERE Username = '$Username';";
+	$result = queryDB($query, $db);
+	$PID = $result;
+	$query = "SELECT JID FROM Job_T WHERE PID = '$PID';";
+	$result = queryDB($query, $db);
+	$JID = $result;
 	
 	$s_date = $_POST['s_date'];
 	$e_date = $_POST['e_date'];
 	$amount = $_POST['amount'];
 	$hours = $_POST['hours'];
+	//$job = $_POST['job'];
 	
-    if ($amount != ''){
-		
-        // connect to database
-        $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-            
+    if (!$s_date){
+		punt("Please enter a start date");        
+    }
+	if (!$e_date){
+		punt("Please enter an end date");        
+    }
+	if (!$amount=){
+		punt("Please enter an amount of wage");        
+    }
+	if (!$hours){
+		punt("Please enter an amount of hours worked");        
+    }
+	else{   
         // set the query
-        $query = "INSERT INTO Paystub_T (Amount, Stub_Hours, S_Date, E_Date) VALUES ('$amount', '$hours', '$s_date', '$e_date');";
+        $query = "INSERT INTO Paystub_T (JID, Amount, Stub_Hours, S_Date, E_Date) VALUES ('$JID', '$amount', '$hours', '$s_date', '$e_date');";
         
         // run the query
         $result = queryDB($query, $db);
         
         echo "Pay Stub was added";
-    }
+	}
 
 }
 
