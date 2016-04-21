@@ -128,7 +128,9 @@ $menuActive="3"
 				  
 				
 				<!-- Drop down box for jobs -->
-				<select class="form-control"><?php echo $Business_Options; ?></select>		
+				<div class="form-group">
+					<select class="form-control"><?php echo $Business_Options; ?></select>		
+				</div>
 				<br>
 				
 				<!--SUBMIT BUTTON -->
