@@ -1,3 +1,8 @@
+<?php
+	include_once('config.php');
+	include_once('dbutils.php');
+?>
+
 <html>
 <!--
 This page is reached after user logs in. This is their home. Access to everything
@@ -67,6 +72,36 @@ $menuActive="3"
 		<h1><center><font color="White"><strong> Paystub </strong></font></center><hr width="50%"></h1>
 	</div>
 	
+<?php
+$PID = $_SESSION['PID'];
+
+// connect
+$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+/*$query = "SELECT JID FROM Job_T WHERE PID = $PID";
+$result = queryDB($query, $db);
+$JID = "";
+if (nTuples($result) > 0) {
+	while ($row=nextTuple($result)) {
+		$JID .= $row['JID'];
+		}
+	}
+*/
+
+$query = "SELECT Business_Name, Position, Business_Address FROM Business_T as b, Job_T as j WHERE j.PID = $PID AND b.BID = j.BID ORDER BY Business_Name;";
+
+$result = queryDB($query, $db);
+
+$Job_Options = "";
+
+if (nTuples($result) > 0) {
+    while ($row=nextTuple($result)) {
+		$Job_Options .= "\t\t\t";
+		$Job_Options .= "<option value='";
+		$Job_Options .= $row['BID'] . "'>" . $row['Business_Name'] . "  -  " . $row['Position'] . "  -  " . $row['Business_Address'] . "</option>\n";
+		}
+	}
+
+?>
 
 
 <!--Entering in Date-->
@@ -128,8 +163,13 @@ $menuActive="3"
 				  
 				
 				<!-- Drop down box for jobs -->
-				<div class="form-group">
-					<select class="form-control"><?php echo $Business_Options; ?></select>		
+				<div class="form-group"><div class="col-sm-12">
+				<div class="input-group">
+					<!-- Drop down box -->
+					<select class="form-control" name="JID"><?php echo $Job_Options; ?></select>
+						
+				</div>
+				</div>
 				</div>
 				<br>
 				
@@ -154,18 +194,25 @@ $menuActive="3"
 if (isset($_POST['submit'])) {
 	$Username = $_SESSION['username'];
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-	$query = "SELECT PID FROM Person_T WHERE Username = '$Username';";
-	$result = queryDB($query, $db);
-	$PID = $result;
+	//$query = "SELECT PID FROM Person_T WHERE Username = '$Username';";
+	//$result = queryDB($query, $db);
+
+	/*
 	$query = "SELECT JID FROM Job_T WHERE PID = '$PID';";
 	$result = queryDB($query, $db);
-	$JID = $result;
+	$JID = "";
+	if (nTuples($result) > 0) {
+		while ($row=nextTuple($result)) {
+			$JID .= $row['JID'];
+			}
+		}
+	*/
 	
 	$s_date = $_POST['s_date'];
 	$e_date = $_POST['e_date'];
 	$amount = $_POST['amount'];
 	$hours = $_POST['hours'];
-	//$job = $_POST['job'];
+	$job = $_POST['JID'];
 	
     if (!$s_date){
 		punt("Please enter a start date");        
@@ -179,6 +226,9 @@ if (isset($_POST['submit'])) {
 	if (!$hours){
 		punt("Please enter an amount of hours worked");        
     }
+	if (!$job){
+		punt("Please choose a job");        
+    }
 	else{   
         // set the query
         $query = "INSERT INTO Paystub_T (JID, Amount, Stub_Hours, S_Date, E_Date) VALUES ('$JID', '$amount', '$hours', '$s_date', '$e_date');";
@@ -186,7 +236,7 @@ if (isset($_POST['submit'])) {
         // run the query
         $result = queryDB($query, $db);
         
-        echo "Pay Stub was added";
+        punt("Your paystub was added"); 
 	}
 
 }
