@@ -72,7 +72,7 @@ if (isset($_POST['submit'])) {
 	}
 
 	if (!$Hours) {
-		punt("Please enter how many hours you worked (8.5)");
+		punt("Please enter how many hours you worked (e.g. 8.5)");
 	}
 	
 	// connect to database
