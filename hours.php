@@ -138,7 +138,6 @@ if (isset($_POST['submit'])) {
 				
 				<!--Hours-->
 				
-				<form class="form-inline">
 				
 					<div class="form-group">
 						<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
@@ -150,7 +149,6 @@ if (isset($_POST['submit'])) {
 					</div>
 					</div>
 				  
-				</form>
 				
 				<!-- Drop down box for jobs -->
 				<!-- Insert php and sql to input jobs -->
@@ -163,7 +161,7 @@ if (isset($_POST['submit'])) {
 				<br>
 				<!--SUBMIT BUTTON -->
 				<div class="form-group"> 
-					<center><button class="btn btn-default btn-lg" id="submit" name="submit" type="submit">Submit</button></center>
+					<center><input class="btn btn-default btn-lg" id="submit" name="submit" type="submit">Submit</button></center>
 				</div>
 			</form>
 			
