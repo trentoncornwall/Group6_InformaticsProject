@@ -53,8 +53,6 @@ $menuActive="2"
 </style>
 </header>
 
-
-
 <body>
 
 <?php
@@ -63,8 +61,10 @@ $menuActive="2"
 if (isset($_POST['submit'])) {
 
 	// get data from the input fields
+	$PID = $_SESSION['PID'];
 	$Hours_Date = $_POST['Hours_Date'];
 	$Hours = $_POST['Hours'];
+	$BID = $_POST['BID'];
 		
 	// check to make sure fields are entered
 	if (!$Hours_Date) {
@@ -78,8 +78,21 @@ if (isset($_POST['submit'])) {
 	// connect to database
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 	
+	//Select JID
+	$query = "SELECT DISTINCT JID FROM Job_T WHERE Job_T(PID) = $PID AND Job_T(BID) = $BID;";
+	
+	//Run query
+	$result = queryDB($query, $db);
+	
+	//Set JID variable to query result
+	$JID = $result;
+	
+	echo "<div class='panel panel-default'>\n";
+	echo "\t<div class='panel-body'>\n";
+    echo "\t\tJID HAS BEEN SELECTED" . $JID . ".\n";
+	echo "</div></div>\n";
 	// set up my query
-	$query = "INSERT INTO Hours_T(Hours, Hours_Date) VALUES ('$Hours', '$Hours_Date');";
+	$query = "INSERT INTO Hours_T(JID, Hours, Hours_Date) VALUES ('$JID', '$Hours', '$Hours_Date');";
 	
 	// run the query
 	$result = queryDB($query, $db);
@@ -93,10 +106,6 @@ if (isset($_POST['submit'])) {
 }
 ?>
 <div class="container">
-<!--NAV BAR -->
-<?php
-	include_once('navbar.php')
-?>
 <!--This is a center block, helps keep vertyhing in the center for the theme-->
 <div class="center-block col-sm-12" style="float: none; background-color: #52BE80">
 
@@ -105,8 +114,28 @@ if (isset($_POST['submit'])) {
 		<h1><center><font color="White"><strong> Hours </strong></font></center><hr></h1>
 	</div>
 	
+<?php
+	
+	
+//CREATING QUERY TO VIEW Business DROP BOX and get BID
+$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+$query = "SELECT BID, Business_Name, Position, Business_Address FROM Business_T ORDER BY Business_Name;";
+$result = queryDB($query, $db);
 
+$Business_Options = "";
 
+if (nTuples($result) > 0) {
+    while ($row=nextTuple($result)) {
+		$Business_Options .= "\t\t\t";
+		$Business_Options .= "<option value='";
+		$Business_Options .= $row['BID'] . "'>" . $row['Business_Name'] . "  -  " . $row['Position'] . "  -  " . $row['Business_Address'] . "</option>\n";
+		}
+	}
+?>	
+
+<?php
+	include_once('navbar.php');
+?>
 <!--Entering in Date-->
 <!--Entering in Date-->
 <div class="container-2">
@@ -139,8 +168,7 @@ if (isset($_POST['submit'])) {
 				<!--Hours-->
 				
 				
-					<div class="form-group">
-						<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+					<div class="form-group">					
 					<div class="input-group">
 				
 				<!--id=hours-->
@@ -149,19 +177,14 @@ if (isset($_POST['submit'])) {
 					</div>
 					</div>
 				  
-				
+			
 				<!-- Drop down box for jobs -->
 				<!-- Insert php and sql to input jobs -->
-				<select class="form-control">
-					<option value="one">Job Example</option>
-					<option value="two">University of Iowa</option>
-					<option value="three">Fill in these</option>
-					<option value="four">Useing a query command</option>
-				</select>		
+				<select class="form-control" name="BID"><?php echo $Business_Options; ?></select>
 				<br>
 				<!--SUBMIT BUTTON -->
 				<div class="form-group"> 
-					<center><input class="btn btn-default btn-lg" id="submit" name="submit" type="submit">Submit</button></center>
+					<center><input class="btn btn-default btn-lg" id="submit" name="submit" type="submit"></button></center>
 				</div>
 			</form>
 			
