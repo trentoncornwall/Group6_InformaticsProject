@@ -87,7 +87,7 @@ if (nTuples($result) > 0) {
 	}
 */
 
-$query = "SELECT Business_Name, Position, Business_Address FROM Business_T as b, Job_T as j WHERE j.PID = $PID AND b.BID = j.BID ORDER BY Business_Name;";
+$query = "SELECT b.Business_Name, b.Position, b.Business_Address, j.JID FROM Business_T as b, Job_T as j WHERE j.PID = $PID AND b.BID = j.BID ORDER BY Business_Name;";
 
 $result = queryDB($query, $db);
 
@@ -97,7 +97,7 @@ if (nTuples($result) > 0) {
     while ($row=nextTuple($result)) {
 		$Job_Options .= "\t\t\t";
 		$Job_Options .= "<option value='";
-		$Job_Options .= $row['BID'] . "'>" . $row['Business_Name'] . "  -  " . $row['Position'] . "  -  " . $row['Business_Address'] . "</option>\n";
+		$Job_Options .= $row['JID'] . "'>" . $row['Business_Name'] . "  -  " . $row['Position'] . "  -  " . $row['Business_Address'] . "</option>\n";
 		}
 	}
 
@@ -163,14 +163,7 @@ if (nTuples($result) > 0) {
 				  
 				
 				<!-- Drop down box for jobs -->
-				<div class="form-group"><div class="col-sm-12">
-				<div class="input-group">
-					<!-- Drop down box -->
-					<select class="form-control" name="JID"><?php echo $Job_Options; ?></select>
-						
-				</div>
-				</div>
-				</div>
+				<select class="form-control" name="JID"><?php echo $Job_Options; ?></select>
 				<br>
 				
 				<!--SUBMIT BUTTON -->
@@ -212,7 +205,7 @@ if (isset($_POST['submit'])) {
 	$e_date = $_POST['e_date'];
 	$amount = $_POST['amount'];
 	$hours = $_POST['hours'];
-	$job = $_POST['JID'];
+	$JID = $_POST['JID'];
 	
     if (!$s_date){
 		punt("Please enter a start date");        
@@ -226,7 +219,7 @@ if (isset($_POST['submit'])) {
 	if (!$hours){
 		punt("Please enter an amount of hours worked");        
     }
-	if (!$job){
+	if (!$JID){
 		punt("Please choose a job");        
     }
 	else{   
@@ -236,7 +229,7 @@ if (isset($_POST['submit'])) {
         // run the query
         $result = queryDB($query, $db);
         
-        punt("Your paystub was added"); 
+        echo "Your paystub was added"; 
 	}
 
 }
