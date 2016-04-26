@@ -79,18 +79,15 @@ if (isset($_POST['submit'])) {
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 	
 	//Select JID
-	$query = "SELECT DISTINCT JID FROM Job_T WHERE Job_T(PID) = $PID AND Job_T(BID) = $BID;";
+	$query = "SELECT JID FROM Job_T WHERE Job_T.PID = $PID AND Job_T.BID = $BID;";
 	
 	//Run query
 	$result = queryDB($query, $db);
 	
 	//Set JID variable to query result
-	$JID = $result;
+	$tuple = nextTuple($result);	
+	$JID = $tuple['JID'];
 	
-	echo "<div class='panel panel-default'>\n";
-	echo "\t<div class='panel-body'>\n";
-    echo "\t\tJID HAS BEEN SELECTED" . $JID . ".\n";
-	echo "</div></div>\n";
 	// set up my query
 	$query = "INSERT INTO Hours_T(JID, Hours, Hours_Date) VALUES ('$JID', '$Hours', '$Hours_Date');";
 	
