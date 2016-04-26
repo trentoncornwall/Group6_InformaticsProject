@@ -46,10 +46,48 @@ Orginally created by Trenton, if you have an questions ask.
 
 </style>
 </header>
+<?php
+//CLICKING SUBMIT BUTTON
+if (isset($_POST['submit'])) {
+
+	// connect and get variables
+	$PID = $_SESSION['PID'];
+	$BID = $_POST['BID'];
+	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+	
+	//check to see if user is already assigned the job
+	$query = "SELECT * FROM Job_T WHERE PID = '$PID' AND BID = '$BID';";
+	$result = queryDB($query, $db);
+	if (nTuples($result) > 0) {
+		//IF job search comes back then the person is assigned this job already
+		punt("ERROR: You are already assigned to this job");
+	} else {		
+		//else, insert job into jobs table assigned to this person
+		$query = "INSERT INTO Job_T(PID, BID) VALUES ('$PID', '$BID');";
+		$result = queryDB($query,$db);
+	}
+	
+}
+?>
+
+<?php
+//DROP BOX FOR BUSINESS OPTIONS
+$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+$query = "SELECT BID, Business_Name, Position, Business_Address FROM Business_T ORDER BY Business_Name;";
+$result = queryDB($query, $db);
+
+$Business_Options = "";
+
+if (nTuples($result) > 0) {
+    while ($row=nextTuple($result)) {
+		$Business_Options .= "\t\t\t";
+		$Business_Options .= "<option value='";
+		$Business_Options .= $row['BID'] . "'>" . $row['Business_Name'] . "  -  " . $row['Position'] . "  -  " . $row['Business_Address'] . "</option>\n";
+		}
+	}
+?>
 
 <body>
-
-
 <div class="container">
 <!--NAV BAR -->
 <?php
@@ -57,41 +95,9 @@ Orginally created by Trenton, if you have an questions ask.
 ?>
 
 <!--This is a center block, helps keep vertyhing in the center for the theme-->
-
 <div class="center-block col-sm-12" style="float: none; background-color: #52BE80">
 <div class="container-2">
 
-
-<?php
-// Back to PHP to perform the search if one has been submitted. Note
-// that $_POST['submit'] will be set only if you invoke this PHP code as
-// the result of a POST action, presumably from having pressed Submit
-// on the form we just displayed above.
-if (isset($_POST['submit'])) {
-//	echo '<p>we are processing form data</p>';
-//	print_r($_POST);
-	// connect
-	$Username = $_SESSION['username'];
-	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-	$query = "SELECT PID FROM Person_T WHERE Username = '$Username';";
-	$result = queryDB($query, $db);
-	
-	$PID = "";
-	if (nTuples($result) > 0) {
-		while ($row=nextTuple($result)) {
-			$PID .= $row['PID'];
-			}
-		}
-		
-	
-
-	$BID = $_POST['BID'];
-	
-	$query = "INSERT INTO Job_T(PID, BID) VALUES ('$PID', '$BID');";
-	$result = queryDB($query,$db);
-		
-}
-?>
 
 
 
@@ -107,22 +113,32 @@ if (isset($_POST['submit'])) {
 	<!--TABLE THAT SHOWS JOBS OF USER-->
 
 <?php
-	
-	
-//CREATING QUERY TO VIEW Business DROP BOX
-$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-$query = "SELECT BID, Business_Name, Position, Business_Address FROM Business_T ORDER BY Business_Name;";
-$result = queryDB($query, $db);
-
-$Business_Options = "";
+//CURRENT JOB TABLE
+/*
+$PID=$_SESSION['PID'];
+$query = "SELECT * FROM Job_T WHERE PID='$PID';";
 
 if (nTuples($result) > 0) {
+    // Useses Bootstraps (table-hover) to make a neat looking table for viewing
+    echo "<div class='container'><table class='table table-hover' align=center>\n";
+    echo "<tr><th align=left>Name</th><th align=left>Position</th><th align=left>Address</th></tr>\n";
     while ($row=nextTuple($result)) {
-		$Business_Options .= "\t\t\t";
-		$Business_Options .= "<option value='";
-		$Business_Options .= $row['BID'] . "'>" . $row['Business_Name'] . "  -  " . $row['Position'] . "  -  " . $row['Business_Address'] . "</option>\n";
-		}
-	}
+        echo '<tr><td align=left>';
+        echo $row['Business_Name'];
+        echo '</td><td align=left>';
+        echo $row['Position'];
+        echo '</td><td align=left>';
+        echo $row['Business_Address'];
+		echo '</td><td alight=center>';
+		echo $row['genre'];
+        echo "</td></tr>\n";
+      }
+    echo "</div></table>\n";
+} else {
+    // No results found; display a message to that effect.
+    echo "<i><font size=4 color='red'>Table is empty, Entry did not work.</font></i></br>";
+    }
+*/
 ?>
 
 	

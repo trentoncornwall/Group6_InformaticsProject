@@ -94,15 +94,17 @@ if (isset($_POST['submit'])) {
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 	
 
-	// Business TABLE FIRST
-	$query = "INSERT INTO Business_T(Business_Name, Business_Address, Position) VALUES ('$Business_Name', '$Business_Address', '$Position');";
-	$result = queryDB($query, $db);
-	header('Location: jobs.php');
-	
-	// Job Table NEXT
-	// HAD AN ERROR TALK TO TEAM
-	
-
+	//Check if business is already in the database
+	$query = "SELECT * FROM Business_T WHERE Business_Name='$Business_Name' AND Business_Address='$Business_Address' AND Position='$Position';";
+	$result = queryDB($query,$db);
+	if (nTuples($result) > 0) {
+		//IF job search comes back then the person is assigned this job already
+		punt("ERROR: The Business '$Business_Name' at '$Business_Address' with the position of '$Position' has already been created");
+	} else {		
+		$query = "INSERT INTO Business_T(Business_Name, Business_Address, Position) VALUES ('$Business_Name', '$Business_Address', '$Position');";
+		$result = queryDB($query, $db);
+		header('Location: jobs.php');	
+	}
 	
 }
 ?>
