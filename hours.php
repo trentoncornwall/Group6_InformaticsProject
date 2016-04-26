@@ -79,18 +79,15 @@ if (isset($_POST['submit'])) {
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 	
 	//Select JID
-	$query = "SELECT DISTINCT JID FROM Job_T WHERE Job_T(PID) = $PID AND Job_T(BID) = $BID;";
+	$query = "SELECT JID FROM Job_T WHERE Job_T.PID = $PID AND Job_T.BID = $BID;";
 	
 	//Run query
 	$result = queryDB($query, $db);
 	
 	//Set JID variable to query result
-	$JID = $result;
+	$tuple = nextTuple($result);	
+	$JID = $tuple['JID'];
 	
-	echo "<div class='panel panel-default'>\n";
-	echo "\t<div class='panel-body'>\n";
-    echo "\t\tJID HAS BEEN SELECTED" . $JID . ".\n";
-	echo "</div></div>\n";
 	// set up my query
 	$query = "INSERT INTO Hours_T(JID, Hours, Hours_Date) VALUES ('$JID', '$Hours', '$Hours_Date');";
 	
@@ -98,6 +95,7 @@ if (isset($_POST['submit'])) {
 	$result = queryDB($query, $db);
 	
 	// tell users that we added the person to the database
+	// THIS NEEDS FIXIN'
 	echo "<div class='panel panel-default'>\n";
 	echo "\t<div class='panel-body'>\n";
     echo "\t\tYour Hours have been added.\n";
@@ -115,11 +113,14 @@ if (isset($_POST['submit'])) {
 	</div>
 	
 <?php
-	
-	
-//CREATING QUERY TO VIEW Business DROP BOX and get BID
+//Set PID for Business_Options dropdown
+$PID = $_SESSION['PID'];	
+
+//Connect to db
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-$query = "SELECT BID, Business_Name, Position, Business_Address FROM Business_T ORDER BY Business_Name;";
+//Query to populate drop down box with list of Jobs pertaining to the Person logged in
+$query = "SELECT b.BID, b.Business_Name, b.Position, b.Business_Address, j.JID FROM Business_T as b, Job_T as j WHERE j.PID = $PID AND b.BID = j.BID ORDER BY Business_Name;";
+
 $result = queryDB($query, $db);
 
 $Business_Options = "";
