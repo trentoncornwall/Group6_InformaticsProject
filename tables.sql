@@ -31,7 +31,7 @@ CREATE TABLE Job_T (
   JID int unsigned NOT NULL AUTO_INCREMENT,
   PID int unsigned NOT NULL,
   BID int unsigned NOT NULL,
-  Wage int,
+  Wage float,
   PRIMARY KEY (JID),
   FOREIGN KEY (PID) REFERENCES Person_T(PID),
   FOREIGN KEY (BID) REFERENCES Business_T(BID)

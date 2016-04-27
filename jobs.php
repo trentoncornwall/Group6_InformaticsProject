@@ -53,6 +53,8 @@ if (isset($_POST['submit'])) {
 	// connect and get variables
 	$PID = $_SESSION['PID'];
 	$BID = $_POST['BID'];
+	$Wage = $_POST['Wage'];
+	
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 	
 	//check to see if user is already assigned the job
@@ -63,7 +65,7 @@ if (isset($_POST['submit'])) {
 		punt("ERROR: You are already assigned to this job");
 	} else {		
 		//else, insert job into jobs table assigned to this person
-		$query = "INSERT INTO Job_T(PID, BID) VALUES ('$PID', '$BID');";
+		$query = "INSERT INTO Job_T(PID, BID, Wage) VALUES ('$PID', '$BID', '$Wage');";
 		$result = queryDB($query,$db);
 	}
 	
@@ -109,39 +111,42 @@ if (nTuples($result) > 0) {
 
 
 <!--List of Current Jobs-->
-	<h4><font color="white"><b>Current Jobs</b></font></h4>
+	<!-- <h4><font color="white"><b>Current Jobs</b></font></h4> -->
 	<!--TABLE THAT SHOWS JOBS OF USER-->
 
 <?php
 //CURRENT JOB TABLE
-/*
-$PID=$_SESSION['PID'];
-$query = "SELECT * FROM Job_T WHERE PID='$PID';";
 
+$PID=$_SESSION['PID'];
+//Connect to db
+$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+
+//Query to populate table with list of Jobs pertaining to the Person logged in
+$query = "SELECT b.Business_Name, b.Position, b.Business_Address, j.Wage FROM Business_T as b, Job_T as j WHERE j.PID = $PID AND b.BID = j.BID ORDER BY Business_Name;";
+$result = queryDB($query,$db);
 if (nTuples($result) > 0) {
-    // Useses Bootstraps (table-hover) to make a neat looking table for viewing
-    echo "<div class='container'><table class='table table-hover' align=center>\n";
-    echo "<tr><th align=left>Name</th><th align=left>Position</th><th align=left>Address</th></tr>\n";
-    while ($row=nextTuple($result)) {
+    // Creating table
+    echo "<table class='table table-hover'>\n";
+    echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Address</th><th align=left>Wage Per Hour</th></tr></thead>\n";
+    while ($row = nextTuple($result)) {
         echo '<tr><td align=left>';
         echo $row['Business_Name'];
         echo '</td><td align=left>';
         echo $row['Position'];
         echo '</td><td align=left>';
         echo $row['Business_Address'];
-		echo '</td><td alight=center>';
-		echo $row['genre'];
+		echo '</td><td alight=left>';
+		echo $row['Wage'];
         echo "</td></tr>\n";
-      }
-    echo "</div></table>\n";
+	  }
+    echo "</table>\n";
 } else {
     // No results found; display a message to that effect.
-    echo "<i><font size=4 color='red'>Table is empty, Entry did not work.</font></i></br>";
+    echo "<i><font size=4 color='white'>You are currently not assigned any jobs. Please do so.</font></i></br>";
     }
-*/
+
 ?>
 
-	
 	
 	<!--ADD JOBS-->
 	<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
@@ -149,16 +154,22 @@ if (nTuples($result) > 0) {
 
 		<!-- Shows Business name and address GROUP -->
 		<div class="form-group"><div class="col-sm-12">
-		<div class="input-group">
-			<!-- Drop down box -->
-			<select class="form-control" name="BID"><?php echo $Business_Options; ?></select>
-				
-				<!-- button to add a new job -->
-				<div class="input-group-btn">
-					<a class="btn btn-default" href="addjob.php" type="button">Don't see your Business?</a>
-				</div>
+			<div class="input-group">
+				<!-- Drop down box -->
+				<select class="form-control" name="BID"><?php echo $Business_Options; ?></select>
+					
+					<!-- button to add a new job -->
+					<div class="input-group-btn">
+						<a class="btn btn-default" href="addjob.php" type="button">Don't see your Business?</a>
+					</div>
+			</div>
+			</div>
 		</div>
-		</div>
+		<div class="form-group"><div class="col-sm-12">
+			<div class="input-group">
+				<span class="input-group-addon">$</span>
+				<input type="number" step="0.01" class="form-control" name="Wage" placeholder="Hourly Wage - Dollars">
+			</div></div>
 		</div>
 		
 		
