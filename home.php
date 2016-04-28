@@ -38,9 +38,6 @@ $menuActive="0"
 	padding: 60px 20px;
 	letter-spacing: 2px;
 }
-.container-2 {
-	padding: 20px 20px;	
-}
 
 </style>
 </header>
@@ -65,21 +62,19 @@ $menuActive="0"
 
 
 <!--Messages for Users-->
-<div class="container-2">
 
 <center><font color="white">
-<h4> DATE was the last logged hours </h4>
-<br>
-<h4> START DATE - END DATE was the last pay stub submission</h4>
+<h4> Notification Center</h4>
 </center></font>
-</div>
 </body>
 
 
 <footer>
+<br>
 <?php
 	include_once('footer.php');
 ?>
+</div>
 </footer>
 </div>
 </div>
