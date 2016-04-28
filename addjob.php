@@ -37,10 +37,6 @@ Orginally created by Trenton, if you have an questions ask.
 .container {
 	padding: 60px 20px;
 	letter-spacing: 2px;
-}
-.container-2 {
-	padding: 20px 20px;	
-	letter-spacing: 2px;
 	color: white;
 }
 
@@ -59,7 +55,6 @@ Orginally created by Trenton, if you have an questions ask.
 <!--This is a center block, helps keep vertyhing in the center for the theme-->
 
 <div class="center-block col-sm-12" style="float: none; background-color: #52BE80">
-<div class="container-2">
 
 
 <?php
@@ -140,7 +135,6 @@ if (isset($_POST['submit'])) {
 		<center><button type="submit" class="btn btn-default btn-lg" name="submit">Submit</button></center>
 	</form>
 
-</div>
 
 
 </body>
@@ -150,6 +144,7 @@ if (isset($_POST['submit'])) {
 <?php
 	include_once('footer.php');
 ?>
+</div>
 </footer>
 </div>
 </div>

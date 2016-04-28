@@ -37,10 +37,6 @@ Orginally created by Trenton, if you have an questions ask.
 .container {
 	padding: 60px 20px;
 	letter-spacing: 2px;
-}
-.container-2 {
-	padding: 20px 20px;	
-	letter-spacing: 2px;
 	color: white;
 }
 
@@ -98,9 +94,6 @@ if (nTuples($result) > 0) {
 
 <!--This is a center block, helps keep vertyhing in the center for the theme-->
 <div class="center-block col-sm-12" style="float: none; background-color: #52BE80">
-<div class="container-2">
-
-
 
 
 <!-- PAGE HEADER -->
@@ -108,11 +101,6 @@ if (nTuples($result) > 0) {
 		<h1><center><font color="White"><strong> Jobs </strong></font></center><hr width="50%"></h1>
 	</div>
 	
-
-
-<!--List of Current Jobs-->
-	<!-- <h4><font color="white"><b>Current Jobs</b></font></h4> -->
-	<!--TABLE THAT SHOWS JOBS OF USER-->
 
 <?php
 //CURRENT JOB TABLE
@@ -177,7 +165,6 @@ if (nTuples($result) > 0) {
 		<center><button type="submit" class="btn btn-default btn-lg" name="submit">Submit</button></center>
 	</form>
 
-</div>
 
 
 </body>
@@ -187,6 +174,7 @@ if (nTuples($result) > 0) {
 <?php
 	include_once('footer.php');
 ?>
+</div>
 </footer>
 </div>
 </div>

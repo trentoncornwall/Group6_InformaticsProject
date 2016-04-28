@@ -46,6 +46,7 @@ $menuActive="2"
 <style>
 .container {
 	padding: 60px 20px;
+	letter-spacing: 2px;
 }
 .container-2 {
 	padding: 60px 120px;	
@@ -109,7 +110,7 @@ if (isset($_POST['submit'])) {
 
 <!-- PAGE HEADER -->
 	<div class="col-xs-12">
-		<h1><center><font color="White"><strong> Hours </strong></font></center><hr></h1>
+		<h1><center><font color="White"><strong> Hours </strong></font></center><hr width="50%"></h1>
 	</div>
 	
 <?php
@@ -169,20 +170,15 @@ if (nTuples($result) > 0) {
 				<!--Hours-->
 				
 				
-					<div class="form-group">					
-					<div class="input-group">
-				
-				<!--id=hours-->
-						<input type="text" class="form-control" id="hours" name="Hours" placeholder="Hours">
-						<div class="input-group-addon"> </div>
-					</div>
-					</div>
+				<div class="form-group">					
+					<input type="text" class="form-control" id="hours" name="Hours" placeholder="Hours">
+				</div>
 				  
-			
 				<!-- Drop down box for jobs -->
-				<!-- Insert php and sql to input jobs -->
-				<select class="form-control" name="BID"><?php echo $Business_Options; ?></select>
-				<br>
+				<div class="form-group">
+					<select class="form-control" name="BID"><?php echo $Business_Options; ?></select>
+				</div>
+
 				<!--SUBMIT BUTTON -->
 				<div class="form-group"> 
 					<center><input class="btn btn-default btn-lg" id="submit" name="submit" type="submit"></button></center>
