@@ -97,11 +97,6 @@ if (isset($_POST['submit'])) {
 	
 	// tell users that we added the person to the database
 	// THIS NEEDS FIXIN'
-	echo "<div class='panel panel-default'>\n";
-	echo "\t<div class='panel-body'>\n";
-    echo "\t\tYour Hours have been added.\n";
-	echo "</div></div>\n";
-	
 }
 ?>
 <div class="container">
@@ -140,7 +135,9 @@ if (nTuples($result) > 0) {
 <?php
 	include_once('navbar.php');
 ?>
-<!--Entering in Date-->
+<!--Hours table-->
+
+
 <!--Entering in Date-->
 <div class="container-2">
 	
@@ -193,7 +190,35 @@ if (nTuples($result) > 0) {
 			</div>
 		</div>
 	</div>
+<?php
+//hours table
 
+$PID=$_SESSION['PID'];
+
+//Connect to db
+$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+
+//Query to populate table with hours and date entered. limit 14 days
+$query = "SELECT h.Hours, h.Hours_Date, j.JID FROM Hours_T as h, Job_T as j WHERE j.PID = $PID ORDER BY Hours_Date DESC LIMIT 14;";
+$result = queryDB($query,$db);
+if (nTuples($result) > 0) {
+    // Creating table
+    echo "<table class='table table-hover'>\n";
+    echo "<thead><tr><th align=left>Hours</th><th align=left>Date</th></tr></thead>\n";
+    while ($row = nextTuple($result)) {
+        echo '<tr><td align=left>';
+        echo $row['Hours'];
+        echo '</td><td align=left>';
+        echo $row['Hours_Date'];        
+        echo "</td></tr>\n";
+	  }
+    echo "</table>\n";
+} else {
+    // No hours have been entered.
+    echo "<i><font size=4 color='white'>You've not entered any hours.</font></i></br>";
+    }
+
+?>
 </div>
 </body>
 
