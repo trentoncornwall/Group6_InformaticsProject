@@ -75,27 +75,33 @@ $menuActive="0"
         </thead>
         <tbody>
 			<?php
-			/*
+			
 			$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 			
-			$query = ("SELECT p.FName, p.LName, p.PID, b.Business_Name, b.Business, b.Position, FROM Person_T as p, Business_T as b, Job_T as j WHERE p.PID = p.PID and b.BID = j.BID ORDER BY PID;")
+			$query = ("SELECT p.FName, p.LName, p.PID, b.Business_Name, b.Business_Address, b.Position FROM Person_T as p, Business_T as b, Job_T as j WHERE p.PID = j.PID and b.BID = j.BID ORDER BY PID;");
 			
 			$result = queryDB($query, $db);
+			
 			
 			// Back to PHP to handle the rows in the table, tuple by tuple.
 			while ($row=nextTuple($result)) {
 				
+				//make a variable that combines fname and lname
+				
+				//make a while loop that puts the bussiness into one row and a loop for address
+				
 				// Useful for debugging; leave commented out otherwise.
 				// echo "\n<!-- ", print_r($row), " -->\n";
 				echo "\n <tr>";
-				echo "<td>" . $row['FName'] , $row['LName'] . "</td>"; //need to add a hyperlink to these rows
+				echo "<td>" . $row['FName'] . "</td>"; //need to add a hyperlink to these rows
 				echo "<td>" . $row['Position'] . "</td>";
 				echo "<td>" . $row['Business_Name'] . "</td>";
+				echo "<td>" . $row['Business_Addres'] . "</td>";
 				echo "<td>" . $row['PID'] . "</td>";
 				echo "</tr>";
 			
 			  }
-			  */
+			  
 			?>
         </tbody>
     </table>
