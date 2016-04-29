@@ -97,6 +97,10 @@ if (isset($_POST['submit'])) {
 	
 	// tell users that we added the person to the database
 	// THIS NEEDS FIXIN'
+	echo '<script type="text/javascript">'
+		,'Alert();'
+		,'</script>'		
+	;
 }
 ?>
 <div class="container">
@@ -170,7 +174,7 @@ if (nTuples($result) > 0) {
 				
 				
 				<div class="form-group">					
-					<input type="number" step="0.1" class="form-control" id="hours" name="Hours" placeholder="Hours">
+					<input type="number" step="0.1" class="form-control" id="hours" name="Hours" placeholder="Hours" max="24">
 				</div>
 				  
 				<!-- Drop down box for jobs -->
@@ -220,6 +224,13 @@ if (nTuples($result) > 0) {
 
 ?>
 </div>
+
+<script>
+function Alert() {
+    alert("Your profile has been updated");
+}
+</script>
+
 </body>
 
 
