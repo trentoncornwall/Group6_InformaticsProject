@@ -170,7 +170,7 @@ if (nTuples($result) > 0) {
 				
 				
 				<div class="form-group">					
-					<input type="text" class="form-control" id="hours" name="Hours" placeholder="Hours">
+					<input type="number" step="0.1" class="form-control" id="hours" name="Hours" placeholder="Hours">
 				</div>
 				  
 				<!-- Drop down box for jobs -->
@@ -199,7 +199,7 @@ $PID=$_SESSION['PID'];
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 
 //Query to populate table with hours and date entered. limit 14 days
-$query = "SELECT h.Hours, h.Hours_Date, j.JID FROM Hours_T as h, Job_T as j WHERE j.PID = $PID ORDER BY Hours_Date DESC LIMIT 14;";
+$query = "SELECT DISTINCT Hours, Hours_Date FROM Hours_T, Job_T WHERE Job_T.PID = $PID ORDER BY Hours_Date DESC LIMIT 14;";
 $result = queryDB($query,$db);
 if (nTuples($result) > 0) {
     // Creating table
