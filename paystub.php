@@ -191,19 +191,7 @@ if (nTuples($result) > 0) {
 if (isset($_POST['submit'])) {
 	$Username = $_SESSION['username'];
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-	//$query = "SELECT PID FROM Person_T WHERE Username = '$Username';";
-	//$result = queryDB($query, $db);
-
-	/*
-	$query = "SELECT JID FROM Job_T WHERE PID = '$PID';";
-	$result = queryDB($query, $db);
-	$JID = "";
-	if (nTuples($result) > 0) {
-		while ($row=nextTuple($result)) {
-			$JID .= $row['JID'];
-			}
-		}
-	*/
+	
 	
 	$s_date = $_POST['s_date'];
 	$e_date = $_POST['e_date'];
@@ -259,7 +247,7 @@ if (nTuples($result) > 0) {
     echo "<table class='table table-hover'>\n";
     echo "<thead><tr><th align=left>Paystub ID#</th><th align=left>Amount</th><th align=left>Hours</th><th align=left>Start Date</th><th align=left>Business</th><th align=left>Position</th></tr></thead>\n";
     while ($row = nextTuple($result)) {
-        echo '<tr><td align=left>';
+		echo '<tr><td align=left>';
         echo $row['PSID'];
         echo '</td><td align=left>';
         echo "$" . $row['Amount'];
@@ -272,6 +260,7 @@ if (nTuples($result) > 0) {
 		echo '</td><td align=left>';
 		echo $row['Position'];
         echo "</td></tr>\n";
+		$row = nextTuple($result);
 	  }
     echo "</table>\n";
 } else {
