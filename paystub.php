@@ -161,7 +161,7 @@ if (nTuples($result) > 0) {
 				<div class="form-group"><div class="col-sm-12">
 					<div class="input-group">
 						<span class="input-group-addon">$</span>
-						<input type="number" step="0.01" class="form-control" name="Wage" placeholder="Amount Paid - Dollars">
+						<input type="number" step="0.01" class="form-control" name="amount" placeholder="Amount Paid - Dollars">
 					</div></div>	
 				</div>
 				
@@ -251,8 +251,9 @@ $PID=$_SESSION['PID'];
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 
 //Query to populate table with recently entered paystubs
-$query = "SELECT p.PSID, p.Amount, p.Stub_Hours, p.S_Date, j.JID, b.Business_Name, b.Position FROM Paystub_T as p, Job_T as j, Business_T as b WHERE j.PID = $PID;";
+$query = "SELECT DISTINCT p.PSID, p.Amount, p.Stub_Hours, p.S_Date, b.Business_Name, b.Position FROM Paystub_T as p, Business_T as b, Job_T WHERE Job_T.PID = $PID ORDER BY PSID;";
 $result = queryDB($query,$db);
+
 if (nTuples($result) > 0) {
     // Creating table
     echo "<table class='table table-hover'>\n";
@@ -261,7 +262,7 @@ if (nTuples($result) > 0) {
         echo '<tr><td align=left>';
         echo $row['PSID'];
         echo '</td><td align=left>';
-        echo $row['Amount'];
+        echo "$" . $row['Amount'];
 		echo '</td><td align=left>';
 		echo $row['Stub_Hours'];
 		echo '</td><td align=left>';
@@ -274,7 +275,7 @@ if (nTuples($result) > 0) {
 	  }
     echo "</table>\n";
 } else {
-    // No hours have been entered.
+    // No paystubs have been entered.
     echo "<i><font size=4 color='white'>You've not entered any paystubs.</font></i></br>";
     }
 
