@@ -132,6 +132,8 @@ if (nTuples($result) > 0) {
 		$Business_Options .= "<option value='";
 		$Business_Options .= $row['BID'] . "'>" . $row['Business_Name'] . "  -  " . $row['Position'] . "  -  " . $row['Business_Address'] . "</option>\n";
 		}
+	} else {
+		echo "<b>NOTICE: You currently have no jobs added to your job list. Please enter a job under the Jobs tab</b>";
 	}
 ?>	
 
@@ -148,7 +150,7 @@ if (nTuples($result) > 0) {
 
 			<!--Form Code Begins-->
 			<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-			 <!-- NOT SURE IF THIS IS CORRECT--!>
+			 
 			
 				<!--Date id=date -->
 				<div class="form-group">
