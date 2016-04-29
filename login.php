@@ -37,7 +37,6 @@ if (isset($_POST['submit'])) {
 	// run the query
 	$result = queryDB($query, $db);
 	
-	$Permission = $row['Permission'];
 	// check if the username is there
 	if (nTuples($result) > 0) {
 		$row = nextTuple($result);

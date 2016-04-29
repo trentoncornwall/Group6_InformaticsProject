@@ -1,6 +1,23 @@
+<?php
+	include_once('config.php');
+	include_once('dbutils.php');
+?>
+
 <html>
 
 <header>
+
+<?php
+// check if user logged in, if not, kick them to login.php
+session_start();
+if(!isset($_SESSION['username'])) {
+	// if this is not set, it means they are not logged in
+	header("Location: login.php");
+}
+$menuActive="0"
+?>	
+	
+	
 <title> Admin </title>
 
 <!-- BOOTSTRAP CODE -->
@@ -21,6 +38,8 @@
 	padding: 60px 120px;	
 }
 </style>
+
+
 </header>
 
 
@@ -29,7 +48,7 @@
 <div class="container">
 <!--NAV BAR -->
 <?php
-	include_once('navbar.php')
+	include_once('ad-nav.php')
 ?>
 <!--This is a center block, helps keep vertyhing in the center for the theme-->
 <div class="center-block col-sm-12" style="float: none; background-color: #52BE80">
@@ -56,10 +75,12 @@
         </thead>
         <tbody>
 			<?php
-			
+			/*
 			$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 			
-			$result = queryDB("SELECT Person_T.FName, Person_T.LName, Person_T.Address, Person_T.PID, Business_T.Business_Name, Job_T.Position, FROM Person_T, Business_T, Job_T WHERE Person_T.PID = Job_T.PID and Business_T.BID = Job_T.BID ORDER BY PID;", $db);
+			$query = ("SELECT p.FName, p.LName, p.PID, b.Business_Name, b.Business, b.Position, FROM Person_T as p, Business_T as b, Job_T as j WHERE p.PID = p.PID and b.BID = j.BID ORDER BY PID;")
+			
+			$result = queryDB($query, $db);
 			
 			// Back to PHP to handle the rows in the table, tuple by tuple.
 			while ($row=nextTuple($result)) {
@@ -67,14 +88,14 @@
 				// Useful for debugging; leave commented out otherwise.
 				// echo "\n<!-- ", print_r($row), " -->\n";
 				echo "\n <tr>";
-				echo "<td>" . $row['FName'] $row['LName'] . "</td>"; //need to add a hyperlink to these rows
+				echo "<td>" . $row['FName'] , $row['LName'] . "</td>"; //need to add a hyperlink to these rows
 				echo "<td>" . $row['Position'] . "</td>";
 				echo "<td>" . $row['Business_Name'] . "</td>";
 				echo "<td>" . $row['PID'] . "</td>";
-				echo "<td>" . $row['Address'] . "</td>";
 				echo "</tr>";
-				
+			
 			  }
+			  */
 			?>
         </tbody>
     </table>
