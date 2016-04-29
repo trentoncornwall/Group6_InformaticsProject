@@ -151,16 +151,20 @@ if (nTuples($result) > 0) {
 					date_input.datepicker(options); //initiali110/26/2015 8:20:59 PM ze plugin
 				</script>
 				
-				<div class="form-group">
-						<input type="text" class="form-control" name="amount" placeholder="Amount (in dollars)">
-				</div>
-				
 
 				<!--id=hours-->
 				<div class="form-group">
-						<input type="text" class="form-control" name="hours" placeholder="Hours">
+						<input type="number" step="0.1" class="form-control" name="hours" placeholder="Hours">
 				</div>
 				  
+				<!--Amount-->
+				<div class="form-group"><div class="col-sm-12">
+					<div class="input-group">
+						<span class="input-group-addon">$</span>
+						<input type="number" step="0.01" class="form-control" name="Wage" placeholder="Amount Paid - Dollars">
+					</div></div>	
+				</div>
+				
 				
 				<!-- Drop down box for jobs -->
 				<select class="form-control" name="JID"><?php echo $Job_Options; ?></select>
@@ -246,7 +250,7 @@ $PID=$_SESSION['PID'];
 //Connect to db
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 
-//Query to populate table with hours and date entered. limit 14 days
+//Query to populate table with recently entered paystubs
 $query = "SELECT p.PSID, p.Amount, p.Stub_Hours, p.S_Date, j.JID, b.Business_Name, b.Position FROM Paystub_T as p, Job_T as j, Business_T as b WHERE j.PID = $PID;";
 $result = queryDB($query,$db);
 if (nTuples($result) > 0) {
