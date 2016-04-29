@@ -152,13 +152,13 @@ if (nTuples($result) > 0) {
 				</script>
 				
 				<div class="form-group">
-						<input type="number" class="form-control" name="amount" placeholder="Amount (in dollars)">
+						<input type="text" class="form-control" name="amount" placeholder="Amount (in dollars)">
 				</div>
 				
 
 				<!--id=hours-->
 				<div class="form-group">
-						<input type="number" class="form-control" name="hours" placeholder="Hours">
+						<input type="text" class="form-control" name="hours" placeholder="Hours">
 				</div>
 				  
 				
@@ -236,7 +236,45 @@ if (isset($_POST['submit'])) {
 
 ?>
 
+<!-- Paystub Table -->
 
+<?php
+//paystub table
+
+$PID=$_SESSION['PID'];
+
+//Connect to db
+$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+
+//Query to populate table with hours and date entered. limit 14 days
+$query = "SELECT p.PSID, p.Amount, p.Stub_Hours, p.S_Date, j.JID, b.Business_Name, b.Position FROM Paystub_T as p, Job_T as j, Business_T as b WHERE j.PID = $PID;";
+$result = queryDB($query,$db);
+if (nTuples($result) > 0) {
+    // Creating table
+    echo "<table class='table table-hover'>\n";
+    echo "<thead><tr><th align=left>Paystub ID#</th><th align=left>Amount</th><th align=left>Hours</th><th align=left>Start Date</th><th align=left>Business</th><th align=left>Position</th></tr></thead>\n";
+    while ($row = nextTuple($result)) {
+        echo '<tr><td align=left>';
+        echo $row['PSID'];
+        echo '</td><td align=left>';
+        echo $row['Amount'];
+		echo '</td><td align=left>';
+		echo $row['Stub_Hours'];
+		echo '</td><td align=left>';
+		echo $row['S_Date'];
+		echo '</td><td align=left>';
+		echo $row['Business_Name'];
+		echo '</td><td align=left>';
+		echo $row['Position'];
+        echo "</td></tr>\n";
+	  }
+    echo "</table>\n";
+} else {
+    // No hours have been entered.
+    echo "<i><font size=4 color='white'>You've not entered any paystubs.</font></i></br>";
+    }
+
+?>
 
 </body>
 

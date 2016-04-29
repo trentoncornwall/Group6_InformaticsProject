@@ -49,7 +49,7 @@ CREATE TABLE Hours_T (
 CREATE TABLE Paystub_T (
   PSID int unsigned NOT NULL AUTO_INCREMENT,
   JID int unsigned NOT NULL,
-  Amount int,
+  Amount float,
   Stub_Hours int,
   S_Date DATE NOT NULL,
   E_Date DATE NOT NULL,
