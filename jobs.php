@@ -155,7 +155,7 @@ if (nTuples($result) > 0) {
         echo '</td><td align=left>';
         echo $row['Business_Address'];
 		echo '</td><td alight=left>';
-		echo $row['Wage'];
+		echo "$" . $row['Wage'];
         echo "</td></tr>\n";
 	  }
     echo "</table>\n";
