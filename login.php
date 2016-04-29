@@ -32,26 +32,40 @@ if (isset($_POST['submit'])) {
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 	
 	// set up my query
-	$query = "SELECT PID, Username, HashedPass FROM Person_T WHERE Username='$username';";
+	$query = "SELECT PID, Username, HashedPass, Permission FROM Person_T WHERE Username='$username';";
 	
 	// run the query
 	$result = queryDB($query, $db);
 	
-	
+	$Permission = $row['Permission'];
 	// check if the username is there
 	if (nTuples($result) > 0) {
 		$row = nextTuple($result);
 		
 		if ($row['HashedPass'] == crypt($password, $row['HashedPass'])) {
 			// Password is correct
-			if (session_start()) {
-				$_SESSION['username'] = $username;
-				$PID = $row['PID'];
-				$_SESSION['PID'] = $PID;
-				header('Location: home.php');
-				
-			} else {
-				punt("Unable to create session");
+			if ($row['Permission'] == 0){
+				if (session_start()) {
+					
+					$_SESSION['username'] = $username;
+					$PID = $row['PID'];
+					$_SESSION['PID'] = $PID;
+					header('Location: home.php');
+					
+				} else {
+					punt("Unable to create session");
+				}
+			}
+			else {
+				if (session_start()) {
+					$_SESSION['username'] = $username;
+					$PID = $row['PID'];
+					$_SESSION['PID'] = $PID;
+					header('Location: admin.php');
+					
+				} else {
+					punt("Unable to create session");
+				}
 			}
 		} else {
 			// Password is not correct
