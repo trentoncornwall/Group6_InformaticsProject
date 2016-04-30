@@ -55,6 +55,12 @@ $menuActive="2"
 </header>
 
 <body>
+<script>
+
+function Alert() {
+    alert("Your hours have been added");
+}
+</script>
 
 <?php
 // PHP to add hours to database.
@@ -224,12 +230,6 @@ if (nTuples($result) > 0) {
 
 ?>
 </div>
-
-<script>
-function Alert() {
-    alert("Your profile has been updated");
-}
-</script>
 
 </body>
 
