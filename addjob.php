@@ -67,10 +67,10 @@ if (isset($_POST['submit'])) {
 //	print_r($_POST);
 
 	// get data from the input fields
-	$Business_Name = $_POST['Business_Name'];
+	$Business_Name = $_POST['Business_Name'];	
 	$Business_Address = $_POST['Business_Address'];
 	$Position = $_POST['Position'];
-	
+	$Business_Name = str_replace("'", "''", $Business_Name);
 
 	if (!$Business_Name) {
 		punt("Please enter a Business Name");
@@ -78,13 +78,10 @@ if (isset($_POST['submit'])) {
 	if (!$Business_Address) {
 		punt("Please enter a Business Address");
 	}
-	if (!Position) {
+	if (!$Position) {
 		punt ("Please enter a Position");
 	}
 	
-	
-
-
 	// connect
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 	
