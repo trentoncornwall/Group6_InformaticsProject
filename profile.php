@@ -148,12 +148,12 @@ if (nTuples($result) > 0) {
 	</div>
 	</div>
 
-	<center><button type="submit" class="btn btn-default btn-lg" name="submit" onclick="Alert()">Edit</button></center>
+	<center><button type="submit" class="btn btn-default btn-lg" name="submit" onclick="Confirm()">Edit</button></center>
 </form>
 
 <script>
-function Alert() {
-    alert("Your profile has been updated");
+function Confirm() {
+    confirm("Do you wish to commit these changes to your profile?");
 }
 </script>
 
