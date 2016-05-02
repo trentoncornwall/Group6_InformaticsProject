@@ -59,28 +59,6 @@ $menuActive="1"
 
 <center><font color="white">
 
-<h3>Daily Hours Logged</h3>
-<table class="table table-bordered">
-	<thead>
-		<tr>
-			<th>Hours</th>
-			<th>Date</th>
-		</tr>
-	</thead>
-	<tbody>
-		  <tr>
-			<td>6</td>
-			<td>03/10/2016</td>
-		  </tr>
-		  <tr>
-			<td>4.25</td>
-			<td>03/12/2016</td>
-		  </tr>
-	</tbody>
-</table>
-
-<h3>Paystub Hours Logged</h3>
-
 <?php
 //paystub table
 
@@ -88,6 +66,28 @@ $PID=$_SESSION['PID'];
 
 //Connect to db
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+
+echo '<h3>Daily Hours Logged</h3>';
+$query = "SELECT Hours, Hours_Date FROM Hours_T, Job_T WHERE Hours_T.JID = Job_T.JID and Job_T.PID = $PID ORDER BY Hours_Date DESC LIMIT 14;";
+$result = queryDB($query,$db);
+if (nTuples($result) > 0) {
+    // Creating table
+    echo "<table class='table table-hover'>\n";
+    echo "<thead><tr><th align=left>Hours</th><th align=left>Date</th></tr></thead>\n";
+    while ($row = nextTuple($result)) {
+        echo '<tr><td align=left>';
+        echo $row['Hours'];
+        echo '</td><td align=left>';
+        echo $row['Hours_Date'];        
+        echo "</td></tr>\n";
+	  }
+    echo "</table>\n";
+} else {
+    // No hours have been entered.
+    echo "<i><font size=4 color='white'>You've not entered any hours.</font></i></br>";
+    }
+
+echo '<h3>Paystub Hours Logged</h3>';
 
 //Query to populate table with recently entered paystubs
 $query = "SELECT DISTINCT p.PSID, p.Amount, p.Stub_Hours, p.S_Date, b.Business_Name, b.Position FROM Paystub_T as p, Business_T as b, Job_T WHERE Job_T.PID = $PID ORDER BY PSID;";
