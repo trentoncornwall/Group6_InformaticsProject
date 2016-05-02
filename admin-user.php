@@ -1,6 +1,22 @@
+<?php
+	include_once('config.php');
+	include_once('dbutils.php');
+?>
+
 <html>
 <header>
-<title> Home </title>
+
+<?php
+// check if user logged in, if not, kick them to login.php
+session_start();
+if(!isset($_SESSION['username'])) {
+	// if this is not set, it means they are not logged in
+	header("Location: login.php");
+}
+$menuActive="1"
+?>		
+	
+<title> USER </title>
 
 <!-- BOOTSTRAP CODE -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -28,7 +44,7 @@
 <div class="container">
 <!--NAV BAR -->
 <?php
-	include_once('navbar.php')
+	include_once('ad-nav.php')
 ?>
 <!--This is a center block, helps keep vertyhing in the center for the theme-->
 <div class="center-block col-sm-12" style="float: none; background-color: #52BE80">
@@ -64,25 +80,50 @@
 </table>
 
 <h3>Paystub Hours Logged</h3>
-<table class="table table-bordered">
-	<thead>
-		<tr>
-			<th>Hours</th>
-			<th>Start Date</th>
-			<th>End Date</th>
-		</tr>
-	</thead>
-	<tbody>
-		  <tr>
-			<td>39.50</td>
-			<td>03/10/16</td>
-			<td>03/24/16</td>
-		  </tr>  
-	</tbody>
-</table>
-</font>
-</div>
+
+<?php
+//paystub table
+
+$PID=$_SESSION['PID'];
+
+//Connect to db
+$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+
+//Query to populate table with recently entered paystubs
+$query = "SELECT DISTINCT p.PSID, p.Amount, p.Stub_Hours, p.S_Date, b.Business_Name, b.Position FROM Paystub_T as p, Business_T as b, Job_T WHERE Job_T.PID = $PID ORDER BY PSID;";
+$result = queryDB($query,$db);
+
+if (nTuples($result) > 0) {
+    // Creating table
+    echo "<table class='table table-hover'>\n";
+    echo "<thead><tr><th align=left>Paystub ID#</th><th align=left>Amount</th><th align=left>Hours</th><th align=left>Start Date</th><th align=left>Business</th><th align=left>Position</th></tr></thead>\n";
+    while ($row = nextTuple($result)) {
+		echo '<tr><td align=left>';
+        echo $row['PSID'];
+        echo '</td><td align=left>';
+        echo "$" . $row['Amount'];
+		echo '</td><td align=left>';
+		echo $row['Stub_Hours'];
+		echo '</td><td align=left>';
+		echo $row['S_Date'];
+		echo '</td><td align=left>';
+		echo $row['Business_Name'];
+		echo '</td><td align=left>';
+		echo $row['Position'];
+        echo "</td></tr>\n";
+		$row = nextTuple($result);
+	  }
+    echo "</table>\n";
+} else {
+    // No paystubs have been entered.
+    echo "<i><font size=4 color='white'>You've not entered any paystubs.</font></i></br>";
+    }
+
+?>
+
+
 </body>
+
 
 
 <footer>

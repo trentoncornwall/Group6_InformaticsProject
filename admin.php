@@ -69,8 +69,8 @@ $menuActive="0"
                 <th>Name</th>
                 <th>Job(s)</th>
                 <th>Business</th>
-                <th>#</th>
                 <th>Address</th>
+                <th>User's ID</th>
             </tr>
         </thead>
         <tbody>
@@ -87,16 +87,16 @@ $menuActive="0"
 			while ($row=nextTuple($result)) {
 				
 				//make a variable that combines fname and lname
-				
+
 				//make a while loop that puts the bussiness into one row and a loop for address
 				
 				// Useful for debugging; leave commented out otherwise.
 				// echo "\n<!-- ", print_r($row), " -->\n";
 				echo "\n <tr>";
-				echo "<td>" . $row['FName'] . "</td>"; //need to add a hyperlink to these rows
+				echo "<td> <a href='admin-user.php'>" . $row['LName'] . ' ' . $row['FName'] . "</a> </td>"; //need to add a hyperlink to these rows
 				echo "<td>" . $row['Position'] . "</td>";
 				echo "<td>" . $row['Business_Name'] . "</td>";
-				echo "<td>" . $row['Business_Addres'] . "</td>";
+				echo "<td>" . $row['Business_Address'] . "</td>";
 				echo "<td>" . $row['PID'] . "</td>";
 				echo "</tr>";
 			
