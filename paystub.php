@@ -101,6 +101,9 @@ if (nTuples($result) > 0) {
 		}
 	}
 
+// Free result set
+mysqli_free_result($result);	
+	
 ?>
 
 
@@ -222,10 +225,53 @@ if (isset($_POST['submit'])) {
         $result = queryDB($query, $db);
         
         echo "Your paystub was added"; 
+		
+		//set up query to call total hours entered
+		$query = "SELECT SUM(Hours) AS Total_Hours FROM Hours_T WHERE Hours_T.Hours_Date <= $e_date AND Hours_T.Hours_Date >= $s_date AND Hours_T.JID = $JID;";
+		
+		$result = queryDB($query, $db);
+		
+		$tuple = nextTuple($result);
+		print_r($tuple);
+		$Total_Hours = $tuple['Total_Hours'];
+		print_r($Total_Hours);
+		
+		//select job wage to calculate expected wage
+		//$query = "SELECT Wage FROM Job_T WHERE Job_T.JID = $JID;";
+		
+		//$result = queryDB($query, $db);
+		
+		//$tuple = nextTuple($result);
+		//$Hourly_Wage = $tuple['Wage'];
+		
+		//multiply hourly wage by total hours worked
+		//$Expected_Pay = $Total_Hours * $Hourly_Wage;
+		
+		//compare expected with actual pay
+		//$Pay_Difference = "";
+		//$Hour_Difference = "";
+		//if $Expected_Pay > $amount or $Expected_Pay < $amount {
+			//$Pay_Difference = abs($amount - $Expected_Pay);
+			//$Hour_Difference = abs($hours - $Total_Hours);
+			//set up query to access PSID of date range submitted for the user with JID of $JID
+			//$query = "SELECT PSID FROM Paystub_T WHERE S_Date = $s_date AND E_Date = $e_date AND Paystub_T.JID = $JID;";
+			//$result = queryDB($query, $db);
+			//$tuple = nextTuple($result);
+			//$PSID = $tuple['PSID'];
+			
+			//query to insert difference as a report. we insert difference and PSID, report ID is generated for each report generated
+			//$query = "INSERT INTO Report_T (PSID, JID, Pay_Difference, Hour_Difference) VALUES ('$PSID', '$JID', '$Pay_Difference', '$Hour_Difference');";
+			//$result = queryDB($query, $db);
+			
+			//echo "There was a difference found between your paystub and your expected pay";
+			//echo "There was a difference of $" . $Pay_Difference . " found.";
+			//echo "There was a " . $Hour_Difference . " hour difference between your recorded hours and paystub hours.";
+		//}
 	}
 
 }
-
+// Free result set
+mysqli_free_result($result);
 ?>
 
 <!-- Paystub Table -->
@@ -237,16 +283,16 @@ $PID=$_SESSION['PID'];
 
 //Connect to db
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-
+//FIX THIS SHIT
 //Query to populate table with recently entered paystubs
-$query = "SELECT DISTINCT p.PSID, p.Amount, p.Stub_Hours, p.S_Date, b.Business_Name, b.Position FROM Paystub_T as p, Business_T as b, Job_T WHERE Job_T.PID = $PID ORDER BY PSID;";
+$query = "SELECT PSID, Amount, Stub_Hours, S_Date, Business_Name, Position FROM Paystub_T, Business_T WHERE Paystub_T.JID = (SELECT JID FROM Job_T WHERE Job_T.PID = $PID) ORDER BY S_Date DESC;";
 $result = queryDB($query,$db);
 
 if (nTuples($result) > 0) {
     // Creating table
     echo "<table class='table table-hover'>\n";
     echo "<thead><tr><th align=left>Paystub ID#</th><th align=left>Amount</th><th align=left>Hours</th><th align=left>Start Date</th><th align=left>Business</th><th align=left>Position</th></tr></thead>\n";
-    while ($row = nextTuple($result)) {
+    while ($row = nextTuple($result)) {		
 		echo '<tr><td align=left>';
         echo $row['PSID'];
         echo '</td><td align=left>';
@@ -259,15 +305,15 @@ if (nTuples($result) > 0) {
 		echo $row['Business_Name'];
 		echo '</td><td align=left>';
 		echo $row['Position'];
-        echo "</td></tr>\n";
-		$row = nextTuple($result);
+        echo "</td></tr>\n";			
 	  }
     echo "</table>\n";
 } else {
     // No paystubs have been entered.
     echo "<i><font size=4 color='white'>You've not entered any paystubs.</font></i></br>";
     }
-
+// Free result set
+mysqli_free_result($result);
 ?>
 
 </body>
