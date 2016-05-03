@@ -227,7 +227,7 @@ if (isset($_POST['submit'])) {
         echo "Your paystub was added"; 
 		
 		//set up query to call total hours entered
-		$query = "SELECT SUM(Hours) AS Total_Hours FROM Hours_T WHERE Hours_T.Hours_Date <= $e_date AND Hours_T.Hours_Date >= $s_date AND Hours_T.JID = $JID;";
+		$query = "SELECT SUM(Hours) AS Total_Hours FROM Hours_T WHERE Hours_T.Hours_Date <= '$e_date' AND Hours_T.Hours_Date >= '$s_date' AND Hours_T.JID = $JID;";
 		
 		$result = queryDB($query, $db);
 		
@@ -237,36 +237,36 @@ if (isset($_POST['submit'])) {
 		print_r($Total_Hours);
 		
 		//select job wage to calculate expected wage
-		//$query = "SELECT Wage FROM Job_T WHERE Job_T.JID = $JID;";
+		$query = "SELECT Wage FROM Job_T WHERE Job_T.JID = $JID;";
 		
-		//$result = queryDB($query, $db);
+		$result = queryDB($query, $db);
 		
-		//$tuple = nextTuple($result);
-		//$Hourly_Wage = $tuple['Wage'];
+		$tuple = nextTuple($result);
+		$Hourly_Wage = $tuple['Wage'];
 		
 		//multiply hourly wage by total hours worked
-		//$Expected_Pay = $Total_Hours * $Hourly_Wage;
+		$Expected_Pay = $Total_Hours * $Hourly_Wage;
 		
 		//compare expected with actual pay
-		//$Pay_Difference = "";
-		//$Hour_Difference = "";
-		//if $Expected_Pay > $amount or $Expected_Pay < $amount {
-			//$Pay_Difference = abs($amount - $Expected_Pay);
-			//$Hour_Difference = abs($hours - $Total_Hours);
+		$Pay_Difference = "";
+		$Hour_Difference = "";
+		if $Expected_Pay > $amount or $Expected_Pay < $amount {
+			$Pay_Difference = abs($amount - $Expected_Pay);
+			$Hour_Difference = abs($hours - $Total_Hours);
 			//set up query to access PSID of date range submitted for the user with JID of $JID
-			//$query = "SELECT PSID FROM Paystub_T WHERE S_Date = $s_date AND E_Date = $e_date AND Paystub_T.JID = $JID;";
-			//$result = queryDB($query, $db);
-			//$tuple = nextTuple($result);
-			//$PSID = $tuple['PSID'];
+			$query = "SELECT PSID FROM Paystub_T WHERE S_Date = '$s_date' AND E_Date = '$e_date' AND Paystub_T.JID = $JID;";
+			$result = queryDB($query, $db);
+			$tuple = nextTuple($result);
+			$PSID = $tuple['PSID'];
 			
 			//query to insert difference as a report. we insert difference and PSID, report ID is generated for each report generated
-			//$query = "INSERT INTO Report_T (PSID, JID, Pay_Difference, Hour_Difference) VALUES ('$PSID', '$JID', '$Pay_Difference', '$Hour_Difference');";
-			//$result = queryDB($query, $db);
+			$query = "INSERT INTO Report_T (PSID, JID, Pay_Difference, Hour_Difference) VALUES ('$PSID', '$JID', '$Pay_Difference', '$Hour_Difference');";
+			$result = queryDB($query, $db);
 			
-			//echo "There was a difference found between your paystub and your expected pay";
-			//echo "There was a difference of $" . $Pay_Difference . " found.";
-			//echo "There was a " . $Hour_Difference . " hour difference between your recorded hours and paystub hours.";
-		//}
+			echo "There was a difference found between your paystub and your expected pay";
+			echo "There was a difference of $" . $Pay_Difference . " found.";
+			echo "There was a " . $Hour_Difference . " hour difference between your recorded hours and paystub hours.";
+		}
 	}
 
 }
