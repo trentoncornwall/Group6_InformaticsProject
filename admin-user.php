@@ -61,8 +61,8 @@ $menuActive="1"
 
 <?php
 //paystub table
-
-$PID=$_SESSION['PID'];
+$PID=$_GET['PID'];
+$_SESSION['PID']=$_GET['PID'];
 
 //Connect to db
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);

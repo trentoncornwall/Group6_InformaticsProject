@@ -93,7 +93,7 @@ $menuActive="0"
 				// Useful for debugging; leave commented out otherwise.
 				// echo "\n<!-- ", print_r($row), " -->\n";
 				echo "\n <tr>";
-				echo "<td> <a href='admin-user.php'>" . $row['LName'] . ' ' . $row['FName'] . "</a> </td>"; //need to add a hyperlink to these rows
+				echo "<td> <a href='admin-user.php?PID=". $row['PID'] . "'>" . $row['LName'] . ' ' . $row['FName'] . "</a> </td>"; //need to add a hyperlink to these rows
 				echo "<td>" . $row['Position'] . "</td>";
 				echo "<td>" . $row['Business_Name'] . "</td>";
 				echo "<td>" . $row['Business_Address'] . "</td>";
