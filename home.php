@@ -103,7 +103,7 @@ $menuActive="0"
 						echo '</td><td align=left>';
 						echo $row['Hour_Difference'];
 						echo '</td><td align=left>';
-						echo $row['Pay_Difference'];
+						echo "$" . $row['Pay_Difference'];
 						echo '</td><td align=left>';
 						echo $row['S_Date'];
 						echo '</td></tr>';

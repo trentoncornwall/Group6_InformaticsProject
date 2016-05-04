@@ -301,13 +301,13 @@ $PID=$_SESSION['PID'];
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 //FIX THIS SHIT
 //Query to populate table with recently entered paystubs
-$query = "SELECT PSID, Amount, Stub_Hours, S_Date, Business_Name, Position FROM Paystub_T, Business_T, Job_T WHERE Job_T.PID = $PID AND Paystub_T.JID = Job_T.JID AND Business_T.BID = Job_T.BID ORDER BY S_Date DESC;";
+$query = "SELECT PSID, Amount, Stub_Hours, S_Date, E_Date, Business_Name, Position FROM Paystub_T, Business_T, Job_T WHERE Job_T.PID = $PID AND Paystub_T.JID = Job_T.JID AND Business_T.BID = Job_T.BID ORDER BY S_Date DESC;";
 $result = queryDB($query,$db);
 
 if (nTuples($result) > 0) {
     // Creating table
     echo "<table class='table table-hover'>\n";
-    echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Hours</th><th align=left>Start Date</th><th align=left>Amount</th></tr></thead>\n";
+    echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Hours</th><th align=left>Amount</th><th align=left>Start Date</th><th align=left>End Date</th></tr></thead>\n";
     while ($row = nextTuple($result)) {		
 		echo '<tr><td align=left>';
         echo $row['Business_Name'];
@@ -316,9 +316,11 @@ if (nTuples($result) > 0) {
 		echo '</td><td align=left>';
 		echo $row['Stub_Hours'];
 		echo '</td><td align=left>';
+        echo "$" . $row['Amount'];
+		echo '</td><td align=left>';
 		echo $row['S_Date'];		
 		echo '</td><td align=left>';
-        echo "$" . $row['Amount'];
+		echo $row['E_Date'];		
         echo "</td></tr>\n";			
 	  }
     echo "</table>\n";
@@ -329,7 +331,7 @@ if (nTuples($result) > 0) {
 
 ?>
 	<div class="alert alert-info" role="alert">
-		<strong>Heads up!</strong> Make Sure You Enter In All Of Your Hours For The Pay Stub Before Entering Pay Stub.
+		<strong>Heads up!</strong> Make sure you've entered in all of your hours before submitting your pay stub.
 	</div>
 
 </body>
