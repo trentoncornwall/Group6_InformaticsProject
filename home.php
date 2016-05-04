@@ -69,8 +69,9 @@ $menuActive="0"
 	$PID = $_SESSION['PID'];
 // This will look up the user's PID and IF the user PID is inside the Report_T then will notify the user that his paystub has been flagged as possible fraud
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-	$query = "SELECT  RID, Business_T.BID, Business_Name, Position, Hour_Difference, Pay_Difference FROM Business_T, Job_T, Report_T WHERE Report_T.PID = 3 AND Business_T.BID = Job_T.BID AND Job_T.PID = 3 AND Report_T.JID = Job_T.JID ORDER BY Business_Name;";
+	$query = "SELECT  RID, Business_T.BID, Business_Name, Position, Hour_Difference, Pay_Difference, S_Date FROM Business_T, Job_T, Report_T, Paystub_T WHERE Report_T.PID = $PID AND Business_T.BID = Job_T.BID AND Job_T.PID = $PID AND Report_T.JID = Job_T.JID AND Paystub_T.PSID = Report_T.PSID ORDER BY S_Date DESC;";
 	$result = queryDB($query, $db);
+	
 	
 // this will run if there is a result
 	if (nTuples($result) > 0) {
@@ -93,7 +94,7 @@ $menuActive="0"
 			<div class="modal-body">
 				<p> <?php
 					echo "<table class='table table-hover'>\n";
-					echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Hour Difference</th><th align=left>Pay Difference</th></tr></thead>\n";							
+					echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Hour Difference</th><th align=left>Pay Difference</th><th align=left>Date</th></tr></thead>\n";							
 					while ($row=nextTuple($result)) {
 						echo '<tr><td align=left>';
 						echo $row['Business_Name'];
@@ -103,6 +104,8 @@ $menuActive="0"
 						echo $row['Hour_Difference'];
 						echo '</td><td align=left>';
 						echo $row['Pay_Difference'];
+						echo '</td><td align=left>';
+						echo $row['S_Date'];
 						echo '</td></tr>';
 
 						}

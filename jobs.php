@@ -32,6 +32,13 @@ Orginally created by Trenton, if you have an questions ask.
 <!-- NAVBAR STYLE REF CSS -->
 <link rel="stylesheet" href="navbarstyle.css">
 
+<script>
+
+function Alert() {
+    alert("Your job has been added");
+}
+</script>
+
 <!--ADDITIONAL CSS-->
 <style>
 .container {
@@ -63,6 +70,12 @@ if (isset($_POST['submit'])) {
 		//else, insert job into jobs table assigned to this person
 		$query = "INSERT INTO Job_T(PID, BID, Wage) VALUES ('$PID', '$BID', '$Wage');";
 		$result = queryDB($query,$db);
+		
+		echo '<script type="text/javascript">'
+			,'Alert();'
+			,'</script>'		
+		;
+		
 	}
 	
 }
