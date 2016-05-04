@@ -149,7 +149,7 @@ if (nTuples($result) > 0) {
 
 
 <!--Entering in Date-->
-<div class="container-2">
+
 	
 	<div class="boostrap-iso">
 		<div class="container-fluid">
@@ -160,9 +160,9 @@ if (nTuples($result) > 0) {
 			 
 			
 				<!--Date id=date -->
-				<div class="form-group">
+				<div class="form-group"><div class="col-sm-12">
 						<input class="form-control" id="date" name="Hours_Date" placeholder="YYYY-MM-DD" type="text"/>
-				</div>
+				</div></div>
 				
 				<script>
 					var date_input=$('input[name="Hours_Date"]'); //our date input has the name "date"
@@ -179,19 +179,19 @@ if (nTuples($result) > 0) {
 				<!--Hours-->
 				
 				
-				<div class="form-group">					
+				<div class="form-group"><div class="col-sm-12">					
 					<input type="number" step="0.1" class="form-control" id="hours" name="Hours" placeholder="Hours" max="24">
-				</div>
+				</div></div>
 				  
 				<!-- Drop down box for jobs -->
-				<div class="form-group">
+				<div class="form-group"><div class="col-sm-12">
 					<select class="form-control" name="BID"><?php echo $Business_Options; ?></select>
-				</div>
+				</div></div>
 
 				<!--SUBMIT BUTTON -->
-				<div class="form-group"> 
+				<div class="form-group"> <div class="col-sm-12">
 					<center><input class="btn btn-default btn-lg" id="submit" name="submit" type="submit"></button></center>
-				</div>
+				</div></div>
 			</form>
 			
 			<!--JAVASCRIPT to control the calander--->
@@ -199,34 +199,39 @@ if (nTuples($result) > 0) {
 			
 			</div>
 		</div>
-	</div>
+
 <?php
 //hours table
 
 $PID=$_SESSION['PID'];
 
+
 //Connect to db
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 //FIX THIS SHIT
 //Query to populate table with hours and date entered. limit 14 days
-$query = "SELECT Hours, Hours_Date FROM Hours_T, Job_T WHERE Job_T.PID = $PID ORDER BY Hours_Date DESC LIMIT 14;";
+$query = "SELECT DISTINCT HID, Hours, Hours_Date, Business_Name, Position FROM Hours_T, Job_T, Business_T WHERE Job_T.PID = '$PID' AND Hours_T.JID = Job_T.JID AND Business_T.BID = Job_T.BID ORDER BY Hours_Date DESC LIMIT 14;";
 
 $result = queryDB($query,$db);
 if (nTuples($result) > 0) {
     // Creating table
     echo "<table class='table table-hover'>\n";
-    echo "<thead><tr><th align=left>Hours</th><th align=left>Date</th></tr></thead>\n";
+    echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Hours</th><th align=left>Date</th></tr></thead>\n";
     while ($row = nextTuple($result)) {
         echo '<tr><td align=left>';
-        echo $row['Hours'];
+		echo $row['Business_Name'];
         echo '</td><td align=left>';
+		echo $row['Position'];
+        echo '</td><td align=left>';
+        echo $row['Hours'];
+		echo '</td><td align=left>';
         echo $row['Hours_Date'];        
         echo "</td></tr>\n";
 	  }
     echo "</table>\n";
-} else {
+	} else {
     // No hours have been entered.
-    echo "<i><font size=4 color='white'>You've not entered any hours.</font></i></br>";
+    echo "<i><center><font size=4 color='white'>You've not entered any hours.</center></font></i></br>";
     }
 
 ?>

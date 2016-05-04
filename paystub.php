@@ -42,7 +42,12 @@ $menuActive="3"
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
+<script>
 
+function Alert() {
+    alert("Your Paystub has been added");
+}
+</script>
 
 <!--ADDITIONAL CSS-->
 <style>
@@ -77,17 +82,8 @@ $PID = $_SESSION['PID'];
 
 // connect
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-/*$query = "SELECT JID FROM Job_T WHERE PID = $PID";
-$result = queryDB($query, $db);
-$JID = "";
-if (nTuples($result) > 0) {
-	while ($row=nextTuple($result)) {
-		$JID .= $row['JID'];
-		}
-	}
-*/
 
-$query = "SELECT b.Business_Name, b.Position, b.Business_Address, j.JID FROM Business_T as b, Job_T as j WHERE j.PID = $PID AND b.BID = j.BID ORDER BY Business_Name;";
+$query = "SELECT b.Business_Name, b.Position, b.Business_Address, j.JID FROM Business_T as b, Job_T as j, Hours_T WHERE j.PID = $PID AND b.BID = j.BID AND Hours_T.JID = j.JID ORDER BY Business_Name;";
 
 $result = queryDB($query, $db);
 
@@ -101,27 +97,30 @@ if (nTuples($result) > 0) {
 		}
 	}
 
-// Free result set
-mysqli_free_result($result);	
+	
 	
 ?>
 
 
 <!--Entering in Date-->
 <!--Entering in Date-->
-<div class="container-2">
 	
 	<div class="boostrap-iso">
 		<div class="container-fluid">
 			<div class="row">
 
+
+
+		
+
 			<!--Form Code Begins-->
 			<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 			
+			
 				<!--Date id=s_date -->
-				<div class="form-group">
+				<div class="form-group"><div class="col-sm-12">
 						<input class="form-control" id="s_date" name="s_date" placeholder=" Start Date yyyy-mm-dd" type="text"/>
-				</div>
+				</div></div>
 				
 				<script>
 					var date_input=$('input[name="s_date"]'); //our date input has the name "date"
@@ -138,9 +137,9 @@ mysqli_free_result($result);
 				
 				
 				<!--Date id=paydate -->
-				<div class="form-group">
+				<div class="form-group"><div class="col-sm-12">
 						<input class="form-control" id="e_date" name="e_date" placeholder="End Date yyyy-mm-dd" type="text"/>
-				</div>
+				</div></div>
 				
 				<script>
 					var date_input=$('input[name="e_date"]'); //our date input has the name "date"
@@ -156,27 +155,29 @@ mysqli_free_result($result);
 				
 
 				<!--id=hours-->
-				<div class="form-group">
+				<div class="form-group"><div class="col-sm-12">
 						<input type="number" step="0.1" class="form-control" name="hours" placeholder="Hours">
-				</div>
+				</div></div>
 				  
 				<!--Amount-->
 				<div class="form-group"><div class="col-sm-12">
 					<div class="input-group">
 						<span class="input-group-addon">$</span>
 						<input type="number" step="0.01" class="form-control" name="amount" placeholder="Amount Paid - Dollars">
-					</div></div>	
-				</div>
+					</div>
+				</div></div>
 				
 				
 				<!-- Drop down box for jobs -->
+				<div class="form-group"> <div class="col-sm-12">
 				<select class="form-control" name="JID"><?php echo $Job_Options; ?></select>
+				</div></div>
 				<br>
 				
 				<!--SUBMIT BUTTON -->
-				<div class="form-group"> 
+				<div class="form-group"><div class="col-sm-12"> 
 					<center><button class="btn btn-default btn-lg" name="submit" type="submit">Submit</button></center>
-				</div>
+				</div></div>
 			</form>
 			
 			
@@ -184,7 +185,7 @@ mysqli_free_result($result);
 		</div>
 	</div>
 
-</div>
+
 
 
 <?php
@@ -218,14 +219,18 @@ if (isset($_POST['submit'])) {
 		punt("Please choose a job");        
     }
 	else{   
-        // set the query
+        
+		// set the query
         $query = "INSERT INTO Paystub_T (JID, Amount, Stub_Hours, S_Date, E_Date) VALUES ('$JID', '$amount', '$hours', '$s_date', '$e_date');";
         
         // run the query
         $result = queryDB($query, $db);
+			
+		echo '<script type="text/javascript">'
+			,'Alert();'
+			,'</script>'		
+		;
 		
-        
-        echo "Your paystub was added"; 
 		
 		//set up query to call total hours entered
 		$query = "SELECT SUM(Hours) AS Total_Hours FROM Hours_T WHERE Hours_T.Hours_Date <= '$e_date' AND Hours_T.Hours_Date >= '$s_date' AND Hours_T.JID = $JID;";
@@ -253,6 +258,7 @@ if (isset($_POST['submit'])) {
 		//compare expected with actual pay
 		$Pay_Difference = "";
 		$Hour_Difference = "";
+		$alert = 0;
 		if ($Expected_Pay != $amount) {
 			
 			$Pay_Difference = abs($amount - $Expected_Pay);
@@ -268,10 +274,17 @@ if (isset($_POST['submit'])) {
 			$query = "INSERT INTO Report_T (PSID, PID, JID, Pay_Difference, Hour_Difference) VALUES ('$PSID', '$PID', '$JID', '$Pay_Difference', '$Hour_Difference');";
 			$result = queryDB($query, $db);
 			
-			echo "There was a difference found between your paystub and your expected pay";
-			echo "There was a difference of $" . $Pay_Difference . " found.";
-			echo "There was a " . $Hour_Difference . " hour difference between your recorded hours and paystub hours.";
+			$alert = 1;
+
 		}
+
+		if ($alert=1) {
+			echo 	'<div class="form-group">';
+			echo 	'<div class="alert alert-Danger" role="alert">';
+			echo	'<strong>ALERT!</strong> We noticed a new flag with the recent Pay stub submission - Check the Notification Center on Home Page';
+			echo	'</div></div>';
+		}
+
 	}
 
 }
@@ -288,35 +301,36 @@ $PID=$_SESSION['PID'];
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 //FIX THIS SHIT
 //Query to populate table with recently entered paystubs
-$query = "SELECT PSID, Amount, Stub_Hours, S_Date, Business_Name, Position FROM Paystub_T, Business_T WHERE Paystub_T.JID = (SELECT JID FROM Job_T WHERE Job_T.PID = $PID) ORDER BY S_Date DESC;";
+$query = "SELECT PSID, Amount, Stub_Hours, S_Date, Business_Name, Position FROM Paystub_T, Business_T, Job_T WHERE Job_T.PID = $PID AND Paystub_T.JID = Job_T.JID AND Business_T.BID = Job_T.BID ORDER BY S_Date DESC;";
 $result = queryDB($query,$db);
 
 if (nTuples($result) > 0) {
     // Creating table
     echo "<table class='table table-hover'>\n";
-    echo "<thead><tr><th align=left>Paystub ID#</th><th align=left>Amount</th><th align=left>Hours</th><th align=left>Start Date</th><th align=left>Business</th><th align=left>Position</th></tr></thead>\n";
+    echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Hours</th><th align=left>Start Date</th><th align=left>Amount</th></tr></thead>\n";
     while ($row = nextTuple($result)) {		
 		echo '<tr><td align=left>';
-        echo $row['PSID'];
+        echo $row['Business_Name'];
         echo '</td><td align=left>';
-        echo "$" . $row['Amount'];
+		echo $row['Position'];
 		echo '</td><td align=left>';
 		echo $row['Stub_Hours'];
 		echo '</td><td align=left>';
-		echo $row['S_Date'];
+		echo $row['S_Date'];		
 		echo '</td><td align=left>';
-		echo $row['Business_Name'];
-		echo '</td><td align=left>';
-		echo $row['Position'];
+        echo "$" . $row['Amount'];
         echo "</td></tr>\n";			
 	  }
     echo "</table>\n";
 } else {
     // No paystubs have been entered.
-    echo "<i><font size=4 color='white'>You've not entered any paystubs.</font></i></br>";
+    echo "<i><font size=4 color='white'><center>You've not entered any paystubs.</center></font></i></br>";
     }
 
 ?>
+	<div class="alert alert-info" role="alert">
+		<strong>Heads up!</strong> Make Sure You Enter In All Of Your Hours For The Pay Stub Before Entering Pay Stub.
+	</div>
 
 </body>
 

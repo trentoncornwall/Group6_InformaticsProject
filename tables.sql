@@ -70,3 +70,5 @@ CREATE TABLE Report_T (
   FOREIGN KEY (PID) REFERENCES Person_T(PID),
   FOREIGN KEY (JID) REFERENCES Job_T(JID)
   ) ENGINE=InnoDB;
+
+INSERT INTO Person_T (Username, HashedPass, LName, FName, Email, Phonenumber, Address, Permission) VALUES ('admin', '$2a$12$brGB02UnBnvHtIj/OAyepuDG7okPlOhPy1YGeWu/9kZvjo6mTuy0u', 'seinfeld', 'jerry', 'admin@admin.com', '666-666-6666', '123 admin blvd', 1);

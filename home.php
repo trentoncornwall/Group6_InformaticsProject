@@ -69,7 +69,7 @@ $menuActive="0"
 	$PID = $_SESSION['PID'];
 // This will look up the user's PID and IF the user PID is inside the Report_T then will notify the user that his paystub has been flagged as possible fraud
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-	$query = "SELECT * FROM Report_T WHERE PID = '$PID';";
+	$query = "SELECT  RID, Business_T.BID, Business_Name, Position, Hour_Difference, Pay_Difference FROM Business_T, Job_T, Report_T WHERE Report_T.PID = 3 AND Business_T.BID = Job_T.BID AND Job_T.PID = 3 AND Report_T.JID = Job_T.JID ORDER BY Business_Name;";
 	$result = queryDB($query, $db);
 	
 // this will run if there is a result
@@ -93,19 +93,22 @@ $menuActive="0"
 			<div class="modal-body">
 				<p> <?php
 					echo "<table class='table table-hover'>\n";
-					echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th></tr></thead>\n";							
+					echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Hour Difference</th><th align=left>Pay Difference</th></tr></thead>\n";							
 					while ($row=nextTuple($result)) {
-						$JID = $row['JID'];
-						$query="SELECT Business_T.BID, Business_Name, Position FROM Business_T, Job_T WHERE Job_T.BID = Business_T.BID AND Job_T.JID = $JID;";
-						$theBID= queryDB($query, $db);
-							while ($row=nextTuple($theBID)) {
-								echo '<tr><td align=left>';
-								echo $row['Business_Name'];
-								echo '</td><td align=left>';
-								echo $row['Position'];
-								echo '</td></tr>';
-							}
+						echo '<tr><td align=left>';
+						echo $row['Business_Name'];
+						echo '</td><td align=left>';
+						echo $row['Position'];
+						echo '</td><td align=left>';
+						echo $row['Hour_Difference'];
+						echo '</td><td align=left>';
+						echo $row['Pay_Difference'];
+						echo '</td></tr>';
+
 						}
+						
+						
+					
 					echo "</table>\n";
 					
 					?>
