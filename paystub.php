@@ -331,7 +331,7 @@ if (nTuples($result) > 0) {
 
 ?>
 	<div class="alert alert-info" role="alert">
-		<strong>Heads up!</strong> Make sure you've entered in all of your hours before submitting your pay stub.
+		<center><strong>Heads up!</strong> Make sure you've entered in all of your hours before submitting your pay stub.</center>
 	</div>
 
 </body>
