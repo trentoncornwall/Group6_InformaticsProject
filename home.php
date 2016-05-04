@@ -59,22 +59,71 @@ $menuActive="0"
 		<h1><center><font color="White"><strong> Welcome </strong></font></center><hr width="50%"></h1>
 	</div>
 	
+<center><font color="white">
+<h4> Notification Center</h4> </br>
+</center></font>
 
 
 <!--Messages for Users-->
+<?php 
+	$PID = $_SESSION['PID'];
+// This will look up the user's PID and IF the user PID is inside the Report_T then will notify the user that his paystub has been flagged as possible fraud
+	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+	$query = "SELECT * FROM Report_T WHERE PID = '$PID';";
+	$result = queryDB($query, $db);
+	
+// this will run if there is a result
+	if (nTuples($result) > 0) {
+		echo '<center> <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal"> You have a paystub which showed signs of possible wage theft</button> </center>';
+				
+		
+		}
 
-<center><font color="white">
-<h4> Notification Center</h4>
-</center></font>
-</body>
-
-
-<footer>
-<br>
-<?php
-	include_once('footer.php');
 ?>
-</div>
+
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal-dialog">
+		
+		<!--Modal Content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title"><center>Wage Theft Reports </center></h4>
+			</div>
+			<div class="modal-body">
+				<p> <?php
+					echo "<table class='table table-hover'>\n";
+					echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th></tr></thead>\n";							
+					while ($row=nextTuple($result)) {
+						$JID = $row['JID'];
+						$query="SELECT Business_T.BID, Business_Name, Position FROM Business_T, Job_T WHERE Job_T.BID = Business_T.BID AND Job_T.JID = $JID;";
+						$theBID= queryDB($query, $db);
+							while ($row=nextTuple($theBID)) {
+								echo '<tr><td align=left>';
+								echo $row['Business_Name'];
+								echo '</td><td align=left>';
+								echo $row['Position'];
+								echo '</td></tr>';
+							}
+						}
+					echo "</table>\n";
+					
+					?>
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+		</div>
+	</div>
+<br>
+</body>
+<footer>
+<?php
+include_once("footer.php");
+?>
 </footer>
 </div>
 </div>
+
