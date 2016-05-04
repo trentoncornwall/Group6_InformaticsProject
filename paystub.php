@@ -299,7 +299,7 @@ $PID=$_SESSION['PID'];
 
 //Connect to db
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-//FIX THIS SHIT
+
 //Query to populate table with recently entered paystubs
 $query = "SELECT PSID, Amount, Stub_Hours, S_Date, E_Date, Business_Name, Position FROM Paystub_T, Business_T, Job_T WHERE Job_T.PID = $PID AND Paystub_T.JID = Job_T.JID AND Business_T.BID = Job_T.BID ORDER BY S_Date DESC;";
 $result = queryDB($query,$db);
