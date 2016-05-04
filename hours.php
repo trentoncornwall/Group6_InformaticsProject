@@ -207,9 +207,10 @@ $PID=$_SESSION['PID'];
 
 //Connect to db
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-
+//FIX THIS SHIT
 //Query to populate table with hours and date entered. limit 14 days
-$query = "SELECT Hours, Hours_Date FROM Hours_T WHERE Hours_T.JID = (SELECT JID FROM Job_T WHERE Job_T.PID = $PID) ORDER BY Hours_Date DESC LIMIT 14;";
+$query = "SELECT Hours, Hours_Date FROM Hours_T, Job_T WHERE Job_T.PID = $PID ORDER BY Hours_Date DESC LIMIT 14;";
+
 $result = queryDB($query,$db);
 if (nTuples($result) > 0) {
     // Creating table

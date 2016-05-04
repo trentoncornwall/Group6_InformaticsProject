@@ -223,6 +223,7 @@ if (isset($_POST['submit'])) {
         
         // run the query
         $result = queryDB($query, $db);
+		
         
         echo "Your paystub was added"; 
 		
@@ -232,9 +233,9 @@ if (isset($_POST['submit'])) {
 		$result = queryDB($query, $db);
 		
 		$tuple = nextTuple($result);
-		print_r($tuple);
+		
 		$Total_Hours = $tuple['Total_Hours'];
-		print_r($Total_Hours);
+		
 		
 		//select job wage to calculate expected wage
 		$query = "SELECT Wage FROM Job_T WHERE Job_T.JID = $JID;";
@@ -242,6 +243,8 @@ if (isset($_POST['submit'])) {
 		$result = queryDB($query, $db);
 		
 		$tuple = nextTuple($result);
+		
+		
 		$Hourly_Wage = $tuple['Wage'];
 		
 		//multiply hourly wage by total hours worked
@@ -250,8 +253,10 @@ if (isset($_POST['submit'])) {
 		//compare expected with actual pay
 		$Pay_Difference = "";
 		$Hour_Difference = "";
-		if $Expected_Pay > $amount or $Expected_Pay < $amount {
+		if ($Expected_Pay != $amount) {
+			
 			$Pay_Difference = abs($amount - $Expected_Pay);
+			
 			$Hour_Difference = abs($hours - $Total_Hours);
 			//set up query to access PSID of date range submitted for the user with JID of $JID
 			$query = "SELECT PSID FROM Paystub_T WHERE S_Date = '$s_date' AND E_Date = '$e_date' AND Paystub_T.JID = $JID;";
@@ -260,7 +265,7 @@ if (isset($_POST['submit'])) {
 			$PSID = $tuple['PSID'];
 			
 			//query to insert difference as a report. we insert difference and PSID, report ID is generated for each report generated
-			$query = "INSERT INTO Report_T (PSID, JID, Pay_Difference, Hour_Difference) VALUES ('$PSID', '$JID', '$Pay_Difference', '$Hour_Difference');";
+			$query = "INSERT INTO Report_T (PSID, PID, JID, Pay_Difference, Hour_Difference) VALUES ('$PSID', '$PID', '$JID', '$Pay_Difference', '$Hour_Difference');";
 			$result = queryDB($query, $db);
 			
 			echo "There was a difference found between your paystub and your expected pay";
@@ -270,8 +275,6 @@ if (isset($_POST['submit'])) {
 	}
 
 }
-// Free result set
-mysqli_free_result($result);
 ?>
 
 <!-- Paystub Table -->
@@ -312,8 +315,7 @@ if (nTuples($result) > 0) {
     // No paystubs have been entered.
     echo "<i><font size=4 color='white'>You've not entered any paystubs.</font></i></br>";
     }
-// Free result set
-mysqli_free_result($result);
+
 ?>
 
 </body>
