@@ -62,7 +62,7 @@ $menuActive="2"
 
 <!--Tables-->
 <div class="container-2">
-    <h2><center><font color="White"><strong> USERS </strong></font></center><hr></h2>
+    <h2><center><font color="White"><strong> User's Business </strong></font></center><hr></h2>
     <table class='table table-hover'>
         <thead>
             <tr>
