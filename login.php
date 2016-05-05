@@ -46,7 +46,7 @@ if (isset($_POST['submit'])) {
 			if ($row['Permission'] == 1){
 				if (session_start()) {
 					$_SESSION['username'] = $username;
-					header('Location: admin.php');
+					header("Location: admin.php");
 					
 				} else {
 					punt("Unable to create session");
@@ -55,12 +55,12 @@ if (isset($_POST['submit'])) {
 			if ($row['Permission'] == 2){
 				if (session_start()) {
 					$_SESSION['username'] = $username;
-					header('Location: nonprof.php');		
+					header("Location: nonprof.php");		
 				} else {
 					punt("Unable to create session");
 				}
 			}
-			else {
+			if ($row['Permission'] == 0) {
 				if (session_start()) {
 					$_SESSION['username'] = $username;
 					$PID = $row['PID'];
