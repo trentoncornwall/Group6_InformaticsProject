@@ -41,4 +41,12 @@ function punt($message, $query = '', $db = '') {
     $lastPart = "<br><i>$query</i>\n" . '<br>[' . mysqli_errno($db) . '] ' . mysqli_error($db) . "\n";
   die("\n<br><br><b>Error: $message</b>\n" . $lastPart);
 }
+
+function genURL($path) {
+  // Remind PHP you want the global values of these variables (config.php).
+  global $Proto, $Host, $Base;
+  return($Proto . $Host . $Base . $path);
+}
+
 ?>
+

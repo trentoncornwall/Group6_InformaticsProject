@@ -42,12 +42,7 @@ $menuActive="3"
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
-<script>
 
-function Alert() {
-    alert("Your Paystub has been added");
-}
-</script>
 
 <!--ADDITIONAL CSS-->
 <style>
@@ -219,18 +214,22 @@ if (isset($_POST['submit'])) {
 		punt("Please choose a job");        
     }
 	else{   
-        
-		// set the query
-        $query = "INSERT INTO Paystub_T (JID, Amount, Stub_Hours, S_Date, E_Date) VALUES ('$JID', '$amount', '$hours', '$s_date', '$e_date');";
-        
-        // run the query
-        $result = queryDB($query, $db);
-			
-		echo '<script type="text/javascript">'
-			,'Alert();'
-			,'</script>'		
-		;
+		$query = "SELECT * FROM Paystub_T WHERE Paystub_T.JID = $JID AND S_Date = '$s_date' AND E_Date = '$e_date';";
+		$result = queryDB($query, $db);
 		
+		if (nTuples($result) > 0) {
+			punt("This pay stub as already been added");
+		} else {
+		
+			// set the query
+			$query = "INSERT INTO Paystub_T (JID, Amount, Stub_Hours, S_Date, E_Date) VALUES ('$JID', '$amount', '$hours', '$s_date', '$e_date');";
+			
+			// run the query
+			$result = queryDB($query, $db);
+		}
+
+
+					
 		
 		//set up query to call total hours entered
 		$query = "SELECT SUM(Hours) AS Total_Hours FROM Hours_T WHERE Hours_T.Hours_Date <= '$e_date' AND Hours_T.Hours_Date >= '$s_date' AND Hours_T.JID = $JID;";
@@ -258,7 +257,7 @@ if (isset($_POST['submit'])) {
 		//compare expected with actual pay
 		$Pay_Difference = "";
 		$Hour_Difference = "";
-		$alert = 0;
+
 		if ($Expected_Pay != $amount) {
 			
 			$Pay_Difference = abs($amount - $Expected_Pay);
@@ -274,20 +273,20 @@ if (isset($_POST['submit'])) {
 			$query = "INSERT INTO Report_T (PSID, PID, JID, Pay_Difference, Hour_Difference) VALUES ('$PSID', '$PID', '$JID', '$Pay_Difference', '$Hour_Difference');";
 			$result = queryDB($query, $db);
 			
-			$alert = 1;
+
+			echo 	'<div class="alert alert-danger alert-dismissible" role="alert">';
+			echo 	'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+			echo	'<strong>ALERT!</strong> We noticed a new flag with the recent Pay stub submission - Check the Notification Center on Home Page. <strong>ALERT!</strong>';
+			echo	'</div>';
 
 		}
 
-		if ($alert=1) {
-			echo 	'<div class="form-group">';
-			echo 	'<div class="alert alert-Danger" role="alert">';
-			echo	'<strong>ALERT!</strong> We noticed a new flag with the recent Pay stub submission - Check the Notification Center on Home Page';
-			echo	'</div></div>';
+		
 		}
 
 	}
 
-}
+
 ?>
 
 <!-- Paystub Table -->
@@ -326,11 +325,12 @@ if (nTuples($result) > 0) {
     echo "</table>\n";
 } else {
     // No paystubs have been entered.
-    echo "<i><font size=4 color='white'><center>You've not entered any paystubs.</center></font></i></br>";
+    echo "<font size=4 color='white'><center>You've not entered any paystubs.</center></font></br>";
     }
 
 ?>
-	<div class="alert alert-info" role="alert">
+	<div class="alert alert-info alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		<center><strong>Heads up!</strong> Make sure you've entered in all of your hours before submitting your pay stub.</center>
 	</div>
 
