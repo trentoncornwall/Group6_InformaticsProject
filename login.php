@@ -43,14 +43,19 @@ if (isset($_POST['submit'])) {
 		
 		if ($row['HashedPass'] == crypt($password, $row['HashedPass'])) {
 			// Password is correct
-			if ($row['Permission'] == 0){
+			if ($row['Permission'] == 1){
 				if (session_start()) {
-					
 					$_SESSION['username'] = $username;
-					$PID = $row['PID'];
-					$_SESSION['PID'] = $PID;
-					header('Location: home.php');
+					header('Location: admin.php');
 					
+				} else {
+					punt("Unable to create session");
+				}
+			}
+			if ($row['Permission'] == 2){
+				if (session_start()) {
+					$_SESSION['username'] = $username;
+					header('Location: nonprof.php');		
 				} else {
 					punt("Unable to create session");
 				}
@@ -60,7 +65,7 @@ if (isset($_POST['submit'])) {
 					$_SESSION['username'] = $username;
 					$PID = $row['PID'];
 					$_SESSION['PID'] = $PID;
-					header('Location: admin.php');
+					header('Location: home.php');
 					
 				} else {
 					punt("Unable to create session");
