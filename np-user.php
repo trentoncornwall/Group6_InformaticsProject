@@ -16,7 +16,7 @@ if(!isset($_SESSION['username'])) {
 $menuActive="1"
 ?>		
 	
-<title> USER </title>
+<title> Non-Profit </title>
 
 <!-- BOOTSTRAP CODE -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -116,7 +116,7 @@ else {
 echo '<h3>Paystub Hours Logged</h3>';
 
 //Query to populate table with recently entered paystubs
-$query = "SELECT DISTINCT p.PSID, p.Amount, p.Stub_Hours, p.S_Date, b.Business_Name, b.Position FROM Paystub_T as p, Business_T as b, Job_T WHERE Job_T.PID = $PID ORDER BY PSID;";
+$query = "SELECT PSID, Amount, Stub_Hours, S_Date, E_Date, Business_Name, Position FROM Paystub_T, Business_T, Job_T WHERE Job_T.PID = $PID AND Paystub_T.JID = Job_T.JID AND Business_T.BID = Job_T.BID ORDER BY S_Date DESC;";
 $result = queryDB($query,$db);
 
 if (nTuples($result) > 0) {

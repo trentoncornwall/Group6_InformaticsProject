@@ -18,7 +18,7 @@ $menuActive="0"
 ?>	
 	
 	
-<title> Admin </title>
+<title> Non-Profit </title>
 
 <!-- BOOTSTRAP CODE -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -68,7 +68,7 @@ $menuActive="0"
             <tr>
                 <th>Name</th>
                 <th>User's ID</th>
-				<th></th>
+				<th>Email</th>
             </tr>
         </thead>
         <tbody>
@@ -85,6 +85,7 @@ $menuActive="0"
 				echo "\n <tr>";
 				echo "<td align=left> <a href='np-user.php?PID=". $row['PID'] . "'>" . $row['LName'] . ' ' . $row['FName'] . "</a> </td>";
 				echo "<td align=left>" . $row['PID'] . "</td>";
+				echo "<td align=left>" . $row['Email'] . "</td>";
 				$query2 = ("SELECT Pay_Difference, Hour_difference FROM Report_T as r WHERE r.PID =" . $row['PID'] . ";");
 				$diff = queryDB($query2, $db);
 				if (nTuples($diff) > 0) {
