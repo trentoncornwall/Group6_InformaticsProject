@@ -205,7 +205,7 @@ $PID=$_SESSION['PID'];
 
 //Connect to db
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-//FIX THIS SHIT
+
 //Query to populate table with hours and date entered. limit 14 days
 $query = "SELECT DISTINCT HID, Hours, Hours_Date, Business_Name, Position FROM Hours_T, Job_T, Business_T WHERE Job_T.PID = '$PID' AND Hours_T.JID = Job_T.JID AND Business_T.BID = Job_T.BID ORDER BY Hours_Date DESC LIMIT 14;";
 

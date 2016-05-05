@@ -59,6 +59,11 @@ $menuActive="1"
 
 <center><font color="white">
 
+
+
+
+<font color=white><h4>User Hours</h4></font>
+
 <?php
 //paystub table
 $PID=$_GET['PID'];
@@ -67,59 +72,76 @@ $_SESSION['PID']=$_GET['PID'];
 //Connect to db
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 
-echo '<h3>Daily Hours Logged</h3>';
-$query = "SELECT Hours, Hours_Date FROM Hours_T, Job_T WHERE Hours_T.JID = Job_T.JID and Job_T.PID = $PID ORDER BY Hours_Date DESC LIMIT 14;";
+//Query to populate table with hours and date entered. limit 14 days
+$query = "SELECT DISTINCT HID, Hours, Hours_Date, Business_Name, Position FROM Hours_T, Job_T, Business_T WHERE Job_T.PID = '$PID' AND Hours_T.JID = Job_T.JID AND Business_T.BID = Job_T.BID ORDER BY Hours_Date DESC LIMIT 14;";
+
 $result = queryDB($query,$db);
 if (nTuples($result) > 0) {
     // Creating table
     echo "<table class='table table-hover'>\n";
-    echo "<thead><tr><th align=left>Hours</th><th align=left>Date</th></tr></thead>\n";
+    echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Hours</th><th align=left>Date</th></tr></thead>\n";
     while ($row = nextTuple($result)) {
         echo '<tr><td align=left>';
-        echo $row['Hours'];
+		echo $row['Business_Name'];
         echo '</td><td align=left>';
+		echo $row['Position'];
+        echo '</td><td align=left>';
+        echo $row['Hours'];
+		echo '</td><td align=left>';
         echo $row['Hours_Date'];        
         echo "</td></tr>\n";
 	  }
     echo "</table>\n";
-} else {
+	} else {
     // No hours have been entered.
-    echo "<i><font size=4 color='white'>You've not entered any hours.</font></i></br>";
+    echo "<i><center><font size=4 color='white'>You've not entered any hours.</center></font></i></br>";
     }
 
-echo '<h3>Paystub Hours Logged</h3>';
+//Query to populate table with recently entered paystubs
+
+//paystub table
+
+?>
+
+<font color=white><h4>User Paystubs</h4></font>
+
+<?php
+
+//Connect to db
+$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 
 //Query to populate table with recently entered paystubs
-$query = "SELECT DISTINCT p.PSID, p.Amount, p.Stub_Hours, p.S_Date, b.Business_Name, b.Position FROM Paystub_T as p, Business_T as b, Job_T WHERE Job_T.PID = $PID ORDER BY PSID;";
+$query = "SELECT PSID, Amount, Stub_Hours, S_Date, E_Date, Business_Name, Position FROM Paystub_T, Business_T, Job_T WHERE Job_T.PID = $PID AND Paystub_T.JID = Job_T.JID AND Business_T.BID = Job_T.BID ORDER BY S_Date DESC;";
 $result = queryDB($query,$db);
 
 if (nTuples($result) > 0) {
     // Creating table
     echo "<table class='table table-hover'>\n";
-    echo "<thead><tr><th align=left>Paystub ID#</th><th align=left>Amount</th><th align=left>Hours</th><th align=left>Start Date</th><th align=left>Business</th><th align=left>Position</th></tr></thead>\n";
-    while ($row = nextTuple($result)) {
+    echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Hours</th><th align=left>Amount</th><th align=left>Start Date</th><th align=left>End Date</th></tr></thead>\n";
+    while ($row = nextTuple($result)) {		
 		echo '<tr><td align=left>';
-        echo $row['PSID'];
+        echo $row['Business_Name'];
         echo '</td><td align=left>';
-        echo "$" . $row['Amount'];
+		echo $row['Position'];
 		echo '</td><td align=left>';
 		echo $row['Stub_Hours'];
 		echo '</td><td align=left>';
-		echo $row['S_Date'];
+        echo "$" . $row['Amount'];
 		echo '</td><td align=left>';
-		echo $row['Business_Name'];
+		echo $row['S_Date'];		
 		echo '</td><td align=left>';
-		echo $row['Position'];
-        echo "</td></tr>\n";
-		$row = nextTuple($result);
+		echo $row['E_Date'];
+        echo "</td></tr>\n";			
 	  }
     echo "</table>\n";
 } else {
     // No paystubs have been entered.
-    echo "<i><font size=4 color='white'>You've not entered any paystubs.</font></i></br>";
+    echo "<font size=4 color='white'><center>You've not entered any paystubs.</center></font></br>";
     }
 
 ?>
+
+<center><a href="ad-profile.php"><div class="btn btn-default" type="button">EDIT</div></a></center>
 
 
 </body>

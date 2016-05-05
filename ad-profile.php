@@ -43,9 +43,10 @@ if (isset($_POST['submit'])) {
 	$LName = $_POST['LName'];
 	$Email = $_POST['Email'];
 	$Address = $_POST['Address'];
+	$Permission = $_POST['Permission'];
 
 	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-	$query = "UPDATE Person_T SET FName='$FName', LName='$LName', Email='$Email', Address='$Address' WHERE PID='$PID';";
+	$query = "UPDATE Person_T SET FName='$FName', LName='$LName', Email='$Email', Address='$Address', Permission = $Permission WHERE PID='$PID';";
 	$result = queryDB($query, $db);
 
 	}
@@ -60,6 +61,7 @@ $LName = "";
 $Email = "";
 $Phonenumber = "";
 $Address = "";
+$Permission = "";
 
 // set up query to collect
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
@@ -75,6 +77,7 @@ if (nTuples($result) > 0) {
 		$Email = $row['Email'];
 		$Phonenumber = $row['Phonenumber'];
 		$Address = $row['Address'];
+		$Permission = $row['Permission'];
 		}
 	}
 
@@ -88,6 +91,14 @@ if (nTuples($result) > 0) {
 <?php
 	include_once('ad-nav.php')
 ?>
+<!--This is a center block, helps keep vertyhing in the center for the theme-->
+<div class="center-block col-sm-12" style="float: none; background-color: #52BE80">
+
+<!-- PAGE HEADER -->
+	<div class="col-xs-12">
+		<h1><center><font color="White"><strong> Profile Edit </strong></font></center><hr></h1>
+	</div>
+
 <!--This is a center block, helps keep vertyhing in the center for the theme-->
 
 <div class="center-block col-sm-12" style="float: none; background-color: #52BE80">
@@ -147,6 +158,15 @@ if (nTuples($result) > 0) {
 		</div>
 	</div>
 	</div>
+	
+	<div class="form-group">
+	<div class="col-sm-12">
+		<div class="input-group">
+		  <span class="input-group-addon" id="basic-addon1">Permission</span>
+		  <input type="text" class="form-control" name="Permission" value=<?php echo $Permission?>>
+		</div>
+	</div>
+	</div>
 
 	<center><button type="submit" class="btn btn-default btn-lg" name="submit" onclick="Confirm()">Edit</button></center>
 </form>
@@ -160,9 +180,6 @@ function Confirm() {
 </body>
 <footer>
 <br>
-<?php
-	include_once('footer.php');
-?>
 </div>
 </footer>
 </div>

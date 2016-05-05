@@ -63,13 +63,12 @@ $menuActive="0"
 <!--Tables-->
 <div class="container-2">
     <h2> Users </h2>
-    <table class="table table-bordered">
+    <table class='table table-hover'>
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Job(s)</th>
-                <th>Business</th>
-                <th>User's ID</th>
+                <th align='left'>Name</th>
+                <th align='left'>Permission Level</th>
+                <th align='left'>User's ID</th>
 				<th></th>
             </tr>
         </thead>
@@ -78,8 +77,7 @@ $menuActive="0"
 			
 			$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 			
-			$query = ("SELECT p.FName, p.LName, p.PID, b.Business_Name, b.Position FROM Person_T as p, Business_T as b, Job_T as j WHERE p.PID = j.PID and b.BID = j.BID ORDER BY PID;");
-			
+			$query = "SELECT * FROM Person_T;";
 			$result = queryDB($query, $db);
 			
 			
@@ -93,10 +91,9 @@ $menuActive="0"
 				// Useful for debugging; leave commented out otherwise.
 				// echo "\n<!-- ", print_r($row), " -->\n";
 				echo "\n <tr>";
-				echo "<td> <a href='admin-user.php?PID=". $row['PID'] . "'>" . $row['LName'] . ' ' . $row['FName'] . "</a> </td>"; //need to add a hyperlink to these rows
-				echo "<td>" . $row['Position'] . "</td>";
-				echo "<td>" . $row['Business_Name'] . "</td>";
-				echo "<td>" . $row['PID'] . "</td>";
+				echo "<td align='left'> <a href='admin-user.php?PID=". $row['PID'] . "'>" . $row['LName'] . ' ' . $row['FName'] . "</a> </td>"; //need to add a hyperlink to these rows
+				echo "<td align='left'>" . $row['Permission'] . "</td>";
+				echo "<td align='left'>" . $row['PID'] . "</td>";
 				$diffPID = $row['PID'];
 				$query = ("SELECT Pay_Difference, Hour_difference FROM Report_T as r WHERE r.PID = $diffPID ORDER BY PID;");
 				$diff = queryDB($query, $db);
