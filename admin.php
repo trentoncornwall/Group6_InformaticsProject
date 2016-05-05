@@ -69,8 +69,8 @@ $menuActive="0"
                 <th>Name</th>
                 <th>Job(s)</th>
                 <th>Business</th>
-                <th>Address</th>
                 <th>User's ID</th>
+				<th>Flags</th>
             </tr>
         </thead>
         <tbody>
@@ -78,7 +78,7 @@ $menuActive="0"
 			
 			$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 			
-			$query = ("SELECT p.FName, p.LName, p.PID, b.Business_Name, b.Business_Address, b.Position FROM Person_T as p, Business_T as b, Job_T as j WHERE p.PID = j.PID and b.BID = j.BID ORDER BY PID;");
+			$query = ("SELECT p.FName, p.LName, p.PID, b.Business_Name, b.Position FROM Person_T as p, Business_T as b, Job_T as j WHERE p.PID = j.PID and b.BID = j.BID ORDER BY PID;");
 			
 			$result = queryDB($query, $db);
 			
@@ -96,10 +96,18 @@ $menuActive="0"
 				echo "<td> <a href='admin-user.php?PID=". $row['PID'] . "'>" . $row['LName'] . ' ' . $row['FName'] . "</a> </td>"; //need to add a hyperlink to these rows
 				echo "<td>" . $row['Position'] . "</td>";
 				echo "<td>" . $row['Business_Name'] . "</td>";
-				echo "<td>" . $row['Business_Address'] . "</td>";
 				echo "<td>" . $row['PID'] . "</td>";
+				$diffPID = $row['PID'];
+				$query = ("SELECT Pay_Difference, Hour_difference FROM Report_T as r WHERE r.PID = $diffPID ORDER BY PID;");
+				$diff = queryDB($query, $db);
+				
+					if ($row['Pay_Difference']!='' or $row['Hours_Difference']!='') {
+						echo '<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>';
+					}
+					else {
+						echo '<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>';
+					}
 				echo "</tr>";
-			
 			  }
 			  
 			?>
