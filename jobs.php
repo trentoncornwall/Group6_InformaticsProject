@@ -49,37 +49,6 @@ function Alert() {
 
 </style>
 </header>
-<?php
-//CLICKING SUBMIT BUTTON
-if (isset($_POST['submit'])) {
-
-	// connect and get variables
-	$PID = $_SESSION['PID'];
-	$BID = $_POST['BID'];
-	$Wage = $_POST['Wage'];
-	
-	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-	
-	//check to see if user is already assigned the job
-	$query = "SELECT * FROM Job_T WHERE PID = '$PID' AND BID = '$BID';";
-	$result = queryDB($query, $db);
-	if (nTuples($result) > 0) {
-		//IF job search comes back then the person is assigned this job already
-		punt("ERROR: You are already assigned to this job");
-	} else {		
-		//else, insert job into jobs table assigned to this person
-		$query = "INSERT INTO Job_T(PID, BID, Wage) VALUES ('$PID', '$BID', '$Wage');";
-		$result = queryDB($query,$db);
-		
-		echo '<script type="text/javascript">'
-			,'Alert();'
-			,'</script>'		
-		;
-		
-	}
-	
-}
-?>
 
 <?php
 //DROP BOX FOR BUSINESS OPTIONS
@@ -146,6 +115,43 @@ if (nTuples($result) > 0) {
 		<!--BUTTON-->
 		<center><button type="submit" class="btn btn-default btn-lg" name="submit">Submit</button></center>
 	</form>
+<?php
+//CLICKING SUBMIT BUTTON
+if (isset($_POST['submit'])) {
+
+	// connect and get variables
+	$PID = $_SESSION['PID'];
+	$BID = $_POST['BID'];
+	$Wage = $_POST['Wage'];
+	
+	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+	
+	//check to see if user is already assigned the job
+	$query = "SELECT * FROM Job_T WHERE PID = '$PID' AND BID = '$BID';";
+	$result = queryDB($query, $db);
+	if (nTuples($result) > 0) {
+		//IF job search comes back then the person is assigned this job already
+
+			echo 	'<div class="alert alert-warning alert-dismissible" role="alert">';
+			echo 	'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+			echo	'<center><strong>Issue:</strong> That job is already present in the database. If you wish to modify your wage delete the entry using the table below.</center>';
+			echo	'</div>';
+
+	} else {		
+		//else, insert job into jobs table assigned to this person
+		$query = "INSERT INTO Job_T(PID, BID, Wage) VALUES ('$PID', '$BID', '$Wage');";
+		$result = queryDB($query,$db);
+		
+			echo 	'<div class="alert alert-success alert-dismissible" role="alert">';
+			echo 	'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+			echo	'<center><strong>Success!</strong> Your Job was added. You may now enter hours for this job.</center>';
+			echo	'</div>';		
+		;
+		
+	}
+	
+}
+?>
 <?php
 //CURRENT JOB TABLE
 

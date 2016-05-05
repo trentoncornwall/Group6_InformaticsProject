@@ -55,60 +55,8 @@ $menuActive="2"
 </header>
 
 <body>
-<script>
 
-function Alert() {
-    alert("Your hours have been added");
-}
-</script>
 
-<?php
-// PHP to add hours to database.
-// POST if submit button is pressed
-if (isset($_POST['submit'])) {
-
-	// get data from the input fields
-	$PID = $_SESSION['PID'];
-	$Hours_Date = $_POST['Hours_Date'];
-	$Hours = $_POST['Hours'];
-	$BID = $_POST['BID'];
-		
-	// check to make sure fields are entered
-	if (!$Hours_Date) {
-		punt("Please select a date");
-	}
-
-	if (!$Hours) {
-		punt("Please enter how many hours you worked (e.g. 8.5)");
-	}
-	
-	// connect to database
-	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
-	
-	//Select JID
-	$query = "SELECT JID FROM Job_T WHERE Job_T.PID = $PID AND Job_T.BID = $BID;";
-	
-	//Run query
-	$result = queryDB($query, $db);
-	
-	//Set JID variable to query result
-	$tuple = nextTuple($result);	
-	$JID = $tuple['JID'];
-	
-	// set up my query
-	$query = "INSERT INTO Hours_T(JID, Hours, Hours_Date) VALUES ('$JID', '$Hours', '$Hours_Date');";
-	
-	// run the query
-	$result = queryDB($query, $db);
-	
-	// tell users that we added the person to the database
-	// THIS NEEDS FIXIN'
-	echo '<script type="text/javascript">'
-		,'Alert();'
-		,'</script>'		
-	;
-}
-?>
 <div class="container">
 <!--This is a center block, helps keep vertyhing in the center for the theme-->
 <div class="center-block col-sm-12" style="float: none; background-color: #52BE80">
@@ -199,6 +147,55 @@ if (nTuples($result) > 0) {
 			
 			</div>
 		</div>
+<?php
+// PHP to add hours to database.
+// POST if submit button is pressed
+if (isset($_POST['submit'])) {
+
+	// get data from the input fields
+	$PID = $_SESSION['PID'];
+	$Hours_Date = $_POST['Hours_Date'];
+	$Hours = $_POST['Hours'];
+	$BID = $_POST['BID'];
+		
+	// check to make sure fields are entered
+	if (!$Hours_Date) {
+		punt("Please select a date");
+	}
+
+	if (!$Hours) {
+		punt("Please enter how many hours you worked (e.g. 8.5)");
+	}
+	
+	// connect to database
+	$db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
+	
+	//Select JID
+	$query = "SELECT JID FROM Job_T WHERE Job_T.PID = $PID AND Job_T.BID = $BID;";
+	
+	//Run query
+	$result = queryDB($query, $db);
+	
+	//Set JID variable to query result
+	$tuple = nextTuple($result);	
+	$JID = $tuple['JID'];
+	
+	// set up my query
+	$query = "INSERT INTO Hours_T(JID, Hours, Hours_Date) VALUES ('$JID', '$Hours', '$Hours_Date');";
+	
+	// run the query
+	$result = queryDB($query, $db);
+	
+	// tell users that we added the person to the database
+	// THIS NEEDS FIXIN'
+			echo 	'<div class="alert alert-success alert-dismissible" role="alert">';
+			echo 	'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+			echo	'<center><strong>Success!</strong> '. $Hours . ' Hours have been added for the date '.$Hours_Date.'.</center>';
+			echo	'</div>';		
+		;		
+
+}
+?>
 
 <?php
 //hours table
