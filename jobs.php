@@ -154,12 +154,12 @@ $PID=$_SESSION['PID'];
 $db = connectDB($DBHost,$DBUser,$DBPasswd,$DBName);
 
 //Query to populate table with list of Jobs pertaining to the Person logged in
-$query = "SELECT b.Business_Name, b.Position, b.Business_Address, j.Wage FROM Business_T as b, Job_T as j WHERE j.PID = $PID AND b.BID = j.BID ORDER BY Business_Name;";
+$query = "SELECT j.JID AS JID, b.Business_Name, b.Position, b.Business_Address, j.Wage FROM Business_T as b, Job_T as j WHERE j.PID = $PID AND b.BID = j.BID ORDER BY Business_Name;";
 $result = queryDB($query,$db);
 if (nTuples($result) > 0) {
     // Creating table
     echo "<table class='table table-hover'>\n";
-    echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Address</th><th align=left>Wage Per Hour</th></tr></thead>\n";
+    echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Address</th><th align=left>Wage Per Hour</th><th></th></tr></thead>\n";
     while ($row = nextTuple($result)) {
         echo '<tr><td align=left>';
         echo $row['Business_Name'];
@@ -167,9 +167,12 @@ if (nTuples($result) > 0) {
         echo $row['Position'];
         echo '</td><td align=left>';
         echo $row['Business_Address'];
-		echo '</td><td alight=left>';
+		echo '</td><td align=left>';
 		echo "$" . $row['Wage'];
+		echo '</td><td align=left>';
+		echo '<a href=' . genURL('trash.php?JID=' . $row['JID']) . '><font color=red><span class="glyphicon glyphicon-remove" aria-hidden="true"></font></span></a>';
         echo "</td></tr>\n";
+		
 	  }
     echo "</table>\n";
 } else {
@@ -177,9 +180,19 @@ if (nTuples($result) > 0) {
     echo "<i><font size=4 color='white'>You are currently not assigned any jobs. Please do so.</font></i></br>";
     }
 
+
 ?>
 
+<?php
+if ($_POST['delete']){
+	
+	$JID = $_POST['JID'];	
+	$query = "DELETE FROM Job_T WHERE JID = $JID;";
+	$result = queryDB($query, $db);
 
+}
+
+?>
 </body>
 
 

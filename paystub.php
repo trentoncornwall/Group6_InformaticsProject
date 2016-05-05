@@ -258,7 +258,7 @@ if (isset($_POST['submit'])) {
 		$Pay_Difference = "";
 		$Hour_Difference = "";
 
-		if ($Expected_Pay != $amount) {
+		if (($Expected_Pay != $amount) or ($Total_Hours != $hours)) {
 			
 			$Pay_Difference = abs($amount - $Expected_Pay);
 			
@@ -306,7 +306,7 @@ $result = queryDB($query,$db);
 if (nTuples($result) > 0) {
     // Creating table
     echo "<table class='table table-hover'>\n";
-    echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Hours</th><th align=left>Amount</th><th align=left>Start Date</th><th align=left>End Date</th></tr></thead>\n";
+    echo "<thead><tr><th align=left>Business Name</th><th align=left>Position</th><th align=left>Hours</th><th align=left>Amount</th><th align=left>Start Date</th><th align=left>End Date</th><th></th></tr></thead>\n";
     while ($row = nextTuple($result)) {		
 		echo '<tr><td align=left>';
         echo $row['Business_Name'];
@@ -319,7 +319,9 @@ if (nTuples($result) > 0) {
 		echo '</td><td align=left>';
 		echo $row['S_Date'];		
 		echo '</td><td align=left>';
-		echo $row['E_Date'];		
+		echo $row['E_Date'];
+		echo '</td><td align=left>';
+		echo '<a href=' . genURL('trashps.php?PSID=' . $row['PSID']) . '><font color=red><span class="glyphicon glyphicon-remove" aria-hidden="true"></font></span></a>';
         echo "</td></tr>\n";			
 	  }
     echo "</table>\n";
