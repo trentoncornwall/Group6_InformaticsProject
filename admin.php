@@ -70,7 +70,7 @@ $menuActive="0"
                 <th>Job(s)</th>
                 <th>Business</th>
                 <th>User's ID</th>
-				<th>Flags</th>
+				<th></th>
             </tr>
         </thead>
         <tbody>
@@ -102,11 +102,13 @@ $menuActive="0"
 				$diff = queryDB($query, $db);
 				
 					if ($row['Pay_Difference']!='' or $row['Hours_Difference']!='') {
-						echo '<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>';
+						echo '<td><font color=red><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></font></td>';
 					}
+					/*
 					else {
-						echo '<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>';
+						echo '<td><font color=green><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></font></td>';
 					}
+					*/
 				echo "</tr>";
 			  }
 			  
